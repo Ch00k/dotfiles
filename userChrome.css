@@ -1,0 +1,10 @@
+.tab-text {
+  text-align: left !important;
+  font-weight: normal !important;
+}
+
+.tabbrowser-tab[unread] .tab-text.tab-label {
+  font-style: italic !important;
+  color: firebrick !important;
+}
+

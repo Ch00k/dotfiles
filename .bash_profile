@@ -16,24 +16,32 @@ export PGPORT=
 export PGUSER=
 
 # Aliases
+alias ls='ls -G'
 alias ll='ls -lahG'
 alias updatedb='/usr/libexec/locate.updatedb'
 
 # RVM
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-PS1="\[\033[01;32m\]\[\033[01;34m\] \w \$\[\033[00m\] "
-PS1="\[\033[01;31m\][\$(~/.rvm/bin/rvm-prompt)]$PS1"
+PS1="\[\e[01;32m\]\[\e[01;34m\] \w \[\e[1;32m\]\$\[\e[00m\] "
+PS1="\[\e[01;31m\][\$(~/.rvm/bin/rvm-prompt)]$PS1"
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/v_envs
 source /usr/local/bin/virtualenvwrapper.sh
 
+DW_HOST=
+DW_USERNAME=
+DW_PASSWORD=
+DW_COMMAND="curl -s -k -X POST http://$DW_HOST/apply.cgi -H 'Authorization: Basic $(echo -n $DW_USERNAME:$DW_PASSWORD | base64)'"
+
 # Reboot router
 rr() {
-    dw_host=
-    dw_username=
-    dw_password=
-    curl -k -X POST http://$dw_host/apply.cgi -H "Authorization: Basic $(echo -n $dw_username:$dw_password | base64)" -d "action=Reboot"
+    $DW_COMMAND -d "action=Reboot" > /dev/null
+}
+
+# DHCP Renew
+dr() {
+    $DW_COMMAND -d "submit_button=Status_Internet&submit_type=renew&change_action=gozila_cgi&action=Apply" > /dev/null
 }
 
 # Remove entry from known_hosts
@@ -58,6 +66,3 @@ rem() {
 if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
     . $(brew --prefix)/share/bash-completion/bash_completion
 fi
-
-source $HOME/.indi_auth_user
-
