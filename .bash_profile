@@ -24,6 +24,9 @@ export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
 export AWS_REGION=
 
+# kubernetes
+export KUBERNETES_PROVIDER=
+
 # Aliases
 alias cd="venv_cd"
 alias ls='ls -G'
