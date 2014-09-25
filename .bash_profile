@@ -26,6 +26,7 @@ export AWS_REGION=
 
 # kubernetes
 export KUBERNETES_PROVIDER=
+export DOCKER_HUB_USER=
 
 # Aliases
 alias cd="venv_cd"
