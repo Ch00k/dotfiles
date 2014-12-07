@@ -4,6 +4,9 @@ export LC_ALL="en_US.UTF-8"
 export PATH=$PATH:$HOME/bin
 export GOPATH=$HOME/.gopath
 
+export HISTSIZE=
+export HISTFILESIZE=
+
 # virtualbox-ws
 export VBOXWEB_HOST=
 export VBOXWEB_USER=
@@ -27,6 +30,9 @@ export AWS_REGION=
 # kubernetes
 export KUBERNETES_PROVIDER=
 export DOCKER_HUB_USER=
+
+# Ansible
+export ANSIBLE_HOST_KEY_CHECKING=False
 
 # Aliases
 alias cd="venv_cd"
@@ -79,6 +85,15 @@ rem() {
     else
         cat $1 | pbcopy
     fi
+}
+
+hi() {
+    history | grep "$1"
+}
+
+# Tunnell remote port to local
+tunnel() {
+    ssh -L $2:localhost:$2 $1 -N
 }
 
 # bash-completion
