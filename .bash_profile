@@ -13,6 +13,9 @@ export VBOXWEB_USER=
 export VBOXWEB_PASS=
 export VBOXWEB_LOGGING=
 
+# clapperboard
+export CLPBRD_CONFIG=~/.clpbrd_config
+
 # PostgreSQL
 export PGDATABASE=
 export PGHOST=
@@ -33,6 +36,9 @@ export DOCKER_HUB_USER=
 
 # Ansible
 export ANSIBLE_HOST_KEY_CHECKING=False
+
+#flake8
+export FLAKE8_IGNORE="F401,E711"
 
 # Aliases
 alias cd="venv_cd"
