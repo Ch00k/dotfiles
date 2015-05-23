@@ -1,7 +1,7 @@
 source ~/.profile
 
 export LC_ALL="en_US.UTF-8"
-export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/bin:$HOME/node_modules/.bin
 export GOPATH=$HOME/.gopath
 
 export HISTSIZE=
@@ -30,6 +30,15 @@ export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
 export AWS_REGION=
 
+# OpenStack
+export OS_USERNAME=
+export OS_PASSWORD=
+export OS_TENANT_NAME=
+export OS_AUTH_URL=
+
+# Automata
+export AUTOMATA_SSH_KEY=
+
 # kubernetes
 export KUBERNETES_PROVIDER=
 export DOCKER_HUB_USER=
@@ -38,25 +47,44 @@ export DOCKER_HUB_USER=
 export ANSIBLE_HOST_KEY_CHECKING=False
 
 #flake8
-export FLAKE8_IGNORE="F401,E711"
+export FLAKE8_IGNORE=
+
+# Nestor
+export JENKINS_URL=
 
 # Aliases
-alias cd="venv_cd"
+alias cd='venv_cd'
 alias ls='ls -G'
 alias ll='ls -lahG'
+alias grep='grep --color=auto'
 alias sudo='sudo '
 alias updatedb='/usr/libexec/locate.updatedb'
+alias sed=gsed
+alias delpyc='find . -name \*.pyc -delete'
+alias nvl='nova list --name ^ay- --fields name'
+alias nvd='nova delete'
+alias ffmpeg='ffmpeg -hide_banner'
+alias ffprobe='ffprobe -hide_banner'
+alias ffplay='ffplay -hide_banner'
+alias ff-frames='ffprobe -v quiet -print_format json -show_frames'
+
+alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 
 # Git prompt
 source /usr/local/etc/bash_completion.d/git-prompt.sh
 PS1="\$(__git_ps1 '[%s]')\[\e[01;32m\]\[\e[01;34m\] \w \[\e[1;32m\]\$\[\e[00m\] "
 
+# SCM Breeze
+[ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ] && source "/Users/ay/.scm_breeze/scm_breeze.sh"
+
 # RVM
+[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
 PS1="\[\e[01;31m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
 
 # virtualenvwrapper
-export WORKON_HOME=$HOME/v_envs
+export WORKON_HOME=$HOME/virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
 
 # DD-WRT
@@ -103,8 +131,8 @@ tunnel() {
 }
 
 # bash-completion
-if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
-    . $(brew --prefix)/share/bash-completion/bash_completion
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
 fi
 
 
@@ -129,12 +157,11 @@ venv_cd () {
 check_virtualenv
 
 
-
 # The next line updates PATH for the Google Cloud SDK.
-source '/Users/ay/google-cloud-sdk/path.bash.inc'
+# source '/Users/ay/google-cloud-sdk/path.bash.inc'
 
 # The next line enables bash completion for gcloud.
-source '/Users/ay/google-cloud-sdk/completion.bash.inc'
+# source '/Users/ay/google-cloud-sdk/completion.bash.inc'
 
 # Bash completion for awscli
-complete -C aws_completer aws
+# complete -C aws_completer aws

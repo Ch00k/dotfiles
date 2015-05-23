@@ -1,9 +1,9 @@
 [color]
-	ui = true
+    ui = true
 [push]
-	default = matching
+    default = matching
 [user]
-	name = Andriy Yurchuk
-	email = ayurchuk@minuteware.net
+    name = 
+    email = 
 [core]
-	excludesfile = /Users/ay/.gitignore_global
+    excludesfile = /Users/ay/.gitignore_global
