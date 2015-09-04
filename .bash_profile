@@ -7,6 +7,9 @@ export GOPATH=$HOME/.gopath
 export HISTSIZE=
 export HISTFILESIZE=
 
+# Homebrew
+export HOMEBREW_GITHUB_API_TOKEN=
+
 # virtualbox-ws
 export VBOXWEB_HOST=
 export VBOXWEB_USER=
@@ -54,12 +57,12 @@ export JENKINS_URL=
 
 # Aliases
 alias cd='venv_cd'
-alias ls='ls -G'
-alias ll='ls -lahG'
+alias ls='ls -G --color=auto'
+alias ll='ls -lahG --color=auto'
 alias grep='grep --color=auto'
 alias sudo='sudo '
-alias updatedb='/usr/libexec/locate.updatedb'
-alias sed=gsed
+alias vi='vim'
+alias updatedb='LC_ALL=C updatedb'
 alias delpyc='find . -name \*.pyc -delete'
 alias nvl='nova list --name ^ay- --fields name'
 alias nvd='nova delete'
@@ -70,9 +73,12 @@ alias ff-frames='ffprobe -v quiet -print_format json -show_frames'
 
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 
+# dircolors
+eval `dircolors $HOME/.dircolors`
+
 # Git prompt
 source /usr/local/etc/bash_completion.d/git-prompt.sh
-PS1="\$(__git_ps1 '[%s]')\[\e[01;32m\]\[\e[01;34m\] \w \[\e[1;32m\]\$\[\e[00m\] "
+PS1="\$(__git_ps1 '[%s]')\[\e[01;32m\]\[\e[01;34m\] \w \[\e[01;32m\]\$\[\e[00m\] "
 
 # SCM Breeze
 [ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ] && source "/Users/ay/.scm_breeze/scm_breeze.sh"
@@ -81,7 +87,10 @@ PS1="\$(__git_ps1 '[%s]')\[\e[01;32m\]\[\e[01;34m\] \w \[\e[1;32m\]\$\[\e[00m\] 
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-PS1="\[\e[01;31m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
+current_ruby=$(~/.rvm/bin/rvm-prompt v g)
+if [[ $current_ruby ]]; then
+    PS1="\[\e[01;31m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
+fi
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
@@ -108,7 +117,7 @@ kh() {
     if [ -z "$1" ]; then
         echo "Please provide line number to remove"
     else
-        gsed -i "$1d" $HOME/.ssh/known_hosts
+        sed -i "$1d" $HOME/.ssh/known_hosts
     fi
 }
 
