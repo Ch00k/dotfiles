@@ -74,23 +74,21 @@ alias ff-frames='ffprobe -v quiet -print_format json -show_frames'
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 
 # dircolors
-eval `dircolors $HOME/.dircolors`
+[[ -s "$HOME/.dircolors" ]] && eval `dircolors $HOME/.dircolors`
 
 # Git prompt
-source /usr/local/etc/bash_completion.d/git-prompt.sh
-PS1="\$(__git_ps1 '[%s]')\[\e[01;32m\]\[\e[01;34m\] \w \[\e[01;32m\]\$\[\e[00m\] "
+[[ -s "/usr/local/etc/bash_completion.d/git-prompt.sh" ]] && source /usr/local/etc/bash_completion.d/git-prompt.sh
+PS1="\$(__git_ps1 '[%s]')\[\e[32m\]\[\e[34m\] \w \[\e[32m\]\$\[\e[00m\] "
 
 # SCM Breeze
-[ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ] && source "/Users/ay/.scm_breeze/scm_breeze.sh"
+[[ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ]] && source "/Users/ay/.scm_breeze/scm_breeze.sh"
 
 # RVM
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 current_ruby=$(~/.rvm/bin/rvm-prompt v g)
-if [[ $current_ruby ]]; then
-    PS1="\[\e[01;31m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
-fi
+[[ -n "$current_ruby" ]] && PS1="\[\e[35m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
