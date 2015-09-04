@@ -92,7 +92,7 @@ current_ruby=$(~/.rvm/bin/rvm-prompt v g)
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+[[ -s "/usr/local/bin/virtualenvwrapper.sh" ]] && source /usr/local/bin/virtualenvwrapper.sh
 
 # DD-WRT
 DW_HOST=
