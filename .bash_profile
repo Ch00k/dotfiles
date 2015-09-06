@@ -77,8 +77,9 @@ alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 [[ -s "$HOME/.dircolors" ]] && eval `dircolors $HOME/.dircolors`
 
 # Git prompt
+export GIT_PS1_SHOWDIRTYSTATE=1
 [[ -s "/usr/local/etc/bash_completion.d/git-prompt.sh" ]] && source /usr/local/etc/bash_completion.d/git-prompt.sh
-PS1="\$(__git_ps1 '[%s]')\[\e[32m\]\[\e[34m\] \w \[\e[32m\]\$\[\e[00m\] "
+PS1="\$(__git_ps1 [%s])\[\e[32m\]\[\e[34m\] \w \[\e[32m\]\$\[\e[00m\] "
 
 # SCM Breeze
 [[ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ]] && source "/Users/ay/.scm_breeze/scm_breeze.sh"

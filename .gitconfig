@@ -6,4 +6,4 @@
     name = 
     email = 
 [core]
-    excludesfile = /Users/ay/.gitignore_global
+    excludesfile = ~/.gitignore_global
