@@ -8,3 +8,6 @@
   color: firebrick !important;
 }
 
+.tab-close-button{
+  display:none !important;
+}
