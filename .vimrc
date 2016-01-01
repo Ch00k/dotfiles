@@ -77,10 +77,12 @@ nmap <leader>tb :TagbarToggle<cr>
 map <C-l> :tabn<CR>
 map <C-h> :tabp<CR>
 map <C-n> :tabnew<CR>
-map <leader>q :bp<CR>
-map <leader>w :bn<CR>
+map <leader>[ :bp<CR>
+map <leader>] :bn<CR>
 map <leader>x :BD<CR>
 map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>s :w<CR>
+nnoremap <leader>q :q<CR>
 
 let NERDTreeShowHidden = 1
 let g:airline#extensions#tabline#enabled = 1
