@@ -2,5 +2,8 @@
 *.sublime-project
 *.sublime-workspace
 *.sublime-build
+.ycm_extra_conf.py*
 .DS_Store
 .tags*
+*.swp
+.ipynb_checkpoints
