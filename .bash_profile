@@ -49,9 +49,6 @@ export DOCKER_HUB_USER=
 # Ansible
 export ANSIBLE_HOST_KEY_CHECKING=False
 
-#flake8
-export FLAKE8_IGNORE=
-
 # Nestor
 export JENKINS_URL=
 
@@ -63,7 +60,6 @@ alias grep='grep --color=auto'
 alias sudo='sudo '
 alias vi='vim'
 alias updatedb='LC_ALL=C updatedb'
-alias delpyc='find . -name \*.pyc -delete'
 alias nvl='nova list --name ^ay- --fields name'
 alias nvd='nova delete'
 alias ffmpeg='ffmpeg -hide_banner'
@@ -79,7 +75,9 @@ alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 # Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=1
 [[ -s "/usr/local/etc/bash_completion.d/git-prompt.sh" ]] && source /usr/local/etc/bash_completion.d/git-prompt.sh
-PS1="\$(__git_ps1 [%s])\[\e[32m\]\[\e[34m\] \w \[\e[32m\]\$\[\e[00m\] "
+if [ -n "$(type -t __git_ps1)" ]; then
+    PS1="\$(__git_ps1 [%s])\[\e[32m\]\[\e[34m\] \w \[\e[32m\]\$\[\e[00m\] "
+fi
 
 # SCM Breeze
 [[ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ]] && source "/Users/ay/.scm_breeze/scm_breeze.sh"
@@ -88,7 +86,9 @@ PS1="\$(__git_ps1 [%s])\[\e[32m\]\[\e[34m\] \w \[\e[32m\]\$\[\e[00m\] "
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-current_ruby=$(~/.rvm/bin/rvm-prompt v g)
+if [[ -s "$HOME/.rvm/bin/rvm-prompt" ]]; then
+    current_ruby=$(~/.rvm/bin/rvm-prompt v g)
+fi
 [[ -n "$current_ruby" ]] && PS1="\[\e[35m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
 
 # virtualenvwrapper
@@ -138,6 +138,11 @@ tunnel() {
     ssh -L $2:localhost:$2 $1 -N
 }
 
+pyclean() {
+    find . -type f -name "*.py[co]" -delete
+    find . -type d -name "__pycache__" -delete
+}
+
 # bash-completion
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
@@ -160,6 +165,12 @@ check_virtualenv() {
 venv_cd () {
     builtin cd "$@" && check_virtualenv
 }
+
+# Open argument in Dash
+function dash() {
+    open "dash://$*"
+}
+
 # Call check_virtualenv in case opening directly into a directory (e.g
 # when opening a new tab in Terminal.app).
 check_virtualenv
