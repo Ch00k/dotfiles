@@ -80,9 +80,9 @@ map <C-n> :tabnew<CR>
 map <leader>[ :bp<CR>
 map <leader>] :bn<CR>
 map <leader>x :BD<CR>
-map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>s :w<CR>
 nnoremap <leader>q :q<CR>
+nnoremap <leader>a :wq<CR>
 
 let NERDTreeShowHidden = 1
 let g:airline#extensions#tabline#enabled = 1
