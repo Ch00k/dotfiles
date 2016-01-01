@@ -3,8 +3,14 @@
 [push]
     default = matching
 [user]
-    name = 
-    email = 
+    name =
+    email =
 [core]
     excludesfile = ~/.gitignore_global
     editor = vim +start
+
+[flake8]
+    complexity = -1
+    strict = true
+    ignore =
+    lazy = false
