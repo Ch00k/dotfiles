@@ -1,13 +1,13 @@
 [color]
     ui = true
 [push]
-    default = matching
+    default = current
 [user]
     name =
     email =
 [core]
     excludesfile = ~/.gitignore_global
-    editor = vim +start
+    editor = vim +start +'normal $'
 
 [flake8]
     complexity = -1
