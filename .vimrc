@@ -44,6 +44,9 @@ set lazyredraw
 set ttyfast
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*/__pycache__/*
 
+set pastetoggle=<F2>
+
+imap jk <Esc>
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
@@ -52,6 +55,8 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
+
+nnoremap <F3> :noh<CR>
 
 colorscheme base16-flat
 
@@ -74,8 +79,6 @@ let mapleader = ","
 nmap <leader>nt :NERDTreeToggle<cr>
 nmap <leader>tb :TagbarToggle<cr>
 
-map <C-l> :tabn<CR>
-map <C-h> :tabp<CR>
 map <C-n> :tabnew<CR>
 map <leader>[ :bp<CR>
 map <leader>] :bn<CR>
@@ -83,6 +86,9 @@ map <leader>x :BD<CR>
 nnoremap <leader>s :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>a :wq<CR>
+
+xnoremap < <gv
+xnoremap > >gv
 
 let NERDTreeShowHidden = 1
 let g:airline#extensions#tabline#enabled = 1
