@@ -38,6 +38,10 @@ export OS_USERNAME=
 export OS_PASSWORD=
 export OS_TENANT_NAME=
 export OS_AUTH_URL=
+export OS_IMAGE_NAME=
+export OS_FLAVOR_NAME=
+export OS_SECURITY_GROUPS=
+export OS_SSH_USER=
 
 # Automata
 export AUTOMATA_SSH_KEY=
@@ -90,6 +94,9 @@ if [[ -s "$HOME/.rvm/bin/rvm-prompt" ]]; then
     current_ruby=$(~/.rvm/bin/rvm-prompt v g)
 fi
 [[ -n "$current_ruby" ]] && PS1="\[\e[35m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
+
+# Docker machine
+[[ -n "$DOCKER_MACHINE_NAME" ]] && PS1="\[\e[34m\][$DOCKER_MACHINE_NAME]\[\e[00m\]$PS1"
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
