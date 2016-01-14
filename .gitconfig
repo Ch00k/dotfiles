@@ -2,9 +2,6 @@
     ui = true
 [push]
     default = current
-[user]
-    name =
-    email =
 [core]
     excludesfile = ~/.gitignore_global
     editor = vim +start +'normal $'

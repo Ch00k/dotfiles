@@ -10,6 +10,9 @@ export HISTFILESIZE=
 # Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=
 
+# nbviewer
+GITHUB_API_TOKEN=
+
 # virtualbox-ws
 export VBOXWEB_HOST=
 export VBOXWEB_USER=
@@ -155,32 +158,10 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
 
-
-# Call virtualenvwrapper's "workon" if .venv exists.  This is modified from--
-# http://justinlilly.com/python/virtualenv_wrapper_helper.html
-# which is linked from--
-# http://virtualenvwrapper.readthedocs.org/en/latest/tips.html#automatically-run-workon-when-entering-a-directory
-check_virtualenv() {
-    if [ -e .venv ]; then
-        env=`cat .venv`
-        if [ "$env" != "${VIRTUAL_ENV##*/}" ]; then
-            #echo "Found .venv in directory. Calling: workon ${env}"
-            workon $env
-        fi
-    fi
-}
-venv_cd () {
-    builtin cd "$@" && check_virtualenv
-}
-
 # Open argument in Dash
 function dash() {
     open "dash://$*"
 }
-
-# Call check_virtualenv in case opening directly into a directory (e.g
-# when opening a new tab in Terminal.app).
-check_virtualenv
 
 
 # The next line updates PATH for the Google Cloud SDK.
@@ -191,3 +172,23 @@ check_virtualenv
 
 # Bash completion for awscli
 # complete -C aws_completer aws
+
+
+# ondir
+cd()
+{
+    builtin cd "$@" && eval "`ondir \"$OLDPWD\" \"$PWD\"`"
+}
+
+pushd()
+{
+    builtin pushd "$@" && eval "`ondir \"$OLDPWD\" \"$PWD\"`"
+}
+
+popd()
+{
+    builtin popd "$@" && eval "`ondir \"$OLDPWD\" \"$PWD\"`"
+}
+
+# Run ondir on login
+eval "`ondir /`"
