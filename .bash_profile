@@ -192,3 +192,15 @@ popd()
 
 # Run ondir on login
 eval "`ondir /`"
+
+
+# VPN
+VPN_CONN_NAME=
+
+vpnconnect() {
+    scutil --nc start $VPN_CONN_NAME
+}
+
+vpndisconnect() {
+    scutil --nc stop $VPN_CONN_NAME
+}
