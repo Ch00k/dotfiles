@@ -22,7 +22,7 @@ leave ~/projects/work
     unset GIT_COMMITTER_NAME
     unset GIT_COMMITTER_EMAIL
 
-enter ~/projects/([^/]+)
+enter ~/projects/(work|personal)/([^/]+)
     if [ -e .venv ]; then
         env=`cat .venv`
         if [ "$env" != "${VIRTUAL_ENV##*/}" ]; then
@@ -30,5 +30,5 @@ enter ~/projects/([^/]+)
         fi
     fi
 
-leave ~/projects/([^/]+)
+leave ~/projects/(work|personal)/([^/]+)
     deactivate > /dev/null 2>&1
