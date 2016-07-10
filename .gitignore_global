@@ -7,3 +7,6 @@
 .tags*
 *.swp
 .ipynb_checkpoints
+.reviewboardrc
+.syntastic_cpp_config
+tags

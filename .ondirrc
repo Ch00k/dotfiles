@@ -22,7 +22,7 @@ leave ~/projects/work
     unset GIT_COMMITTER_NAME
     unset GIT_COMMITTER_EMAIL
 
-enter ~/projects/(work|personal)/([^/]+)
+enter ~/projects/(work|personal)/.*
     if [ -e .venv ]; then
         env=`cat .venv`
         if [ "$env" != "${VIRTUAL_ENV##*/}" ]; then
@@ -30,5 +30,17 @@ enter ~/projects/(work|personal)/([^/]+)
         fi
     fi
 
-leave ~/projects/(work|personal)/([^/]+)
+leave ~/projects/(work|personal)/.*
     deactivate > /dev/null 2>&1
+
+enter ~/projects/work/nano-premium/cloudtv_client
+    export CPLUS_INCLUDE_PATH=/usr/local/opt/openssl/include
+
+leave ~/projects/work/nano-premium/cloudtv_client
+    unset CPLUS_INCLUDE_PATH
+
+enter ~/projects/work/nano-(premium|bcp)/cloudtv_client/output/mac/(release|debug)/bin
+    export DYLD_LIBRARY_PATH=../lib
+
+leave ~/projects/work/nano-(premium|bcp)/cloudtv_client/output/mac/(release|debug)/bin
+    unset DYLD_LIBRARY_PATH

@@ -66,6 +66,7 @@ alias ll='ls -lahG --color=auto'
 alias grep='grep --color=auto'
 alias sudo='sudo '
 alias vi='vim'
+alias pdflatex='/Library/TeX/Root/bin/x86_64-darwin/pdflatex'
 alias updatedb='LC_ALL=C updatedb'
 alias nvl='nova list --name ^ay- --fields name'
 alias nvd='nova delete'
@@ -75,19 +76,28 @@ alias ffplay='ffplay -hide_banner'
 alias ff-frames='ffprobe -v quiet -print_format json -show_frames'
 
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
+alias jst='~/virtualenvs/jst/bin/python ~/projects/work/jst/jst -u $OS_USERNAME -p $OS_PASSWORD -c client'
+alias dm='docker-machine'
 
 # dircolors
 [[ -s "$HOME/.dircolors" ]] && eval `dircolors $HOME/.dircolors`
+
+# PS1
+PS1="\[\e[34m\]\w \[\e[00m\]\j\[\e[32m\]\$\[\e[00m\] "
 
 # Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=1
 [[ -s "/usr/local/etc/bash_completion.d/git-prompt.sh" ]] && source /usr/local/etc/bash_completion.d/git-prompt.sh
 if [ -n "$(type -t __git_ps1)" ]; then
-    PS1="\$(__git_ps1 [%s])\[\e[32m\]\[\e[34m\] \w \[\e[32m\]\$\[\e[00m\] "
+    PS1="\$(__git_ps1 [%s])$PS1"
 fi
 
 # SCM Breeze
 [[ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ]] && source "/Users/ay/.scm_breeze/scm_breeze.sh"
+
+# tmuxp
+# TODO: Check if it exists first
+source tmuxp.bash
 
 # RVM
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
@@ -99,7 +109,10 @@ fi
 [[ -n "$current_ruby" ]] && PS1="\[\e[35m\][\$(~/.rvm/bin/rvm-prompt v g)]\[\e[00m\]$PS1"
 
 # Docker machine
-[[ -n "$DOCKER_MACHINE_NAME" ]] && PS1="\[\e[34m\][$DOCKER_MACHINE_NAME]\[\e[00m\]$PS1"
+#[[ -s "$HOME/.dm_prompt" ]] && source "$HOME/.dm_prompt"
+#if [ -n "$(type -t __docker_machine_ps1)" ]; then
+#    PS1="\e[34m\$(__docker_machine_ps1 [%s])\e[00m$PS1"
+#fi
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
@@ -194,7 +207,6 @@ popd()
 eval "`ondir /`"
 
 
-# VPN
 VPN_CONN_NAME=
 
 vpnconnect() {
