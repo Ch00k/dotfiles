@@ -35,6 +35,6 @@ windows:
     - vim
   - focus: 'true'
     shell_command:
-    - /Users/ay/projects/personal/filmklapper
+    - cd /Users/ay/projects/personal/filmklapper
   window_name: filmklapper
 
