@@ -32,15 +32,3 @@ enter ~/projects/(work|personal)/.*
 
 leave ~/projects/(work|personal)/.*
     deactivate > /dev/null 2>&1
-
-enter ~/projects/work/nano-premium/cloudtv_client
-    export CPLUS_INCLUDE_PATH=/usr/local/opt/openssl/include
-
-leave ~/projects/work/nano-premium/cloudtv_client
-    unset CPLUS_INCLUDE_PATH
-
-enter ~/projects/work/nano-(premium|bcp)/cloudtv_client/output/mac/(release|debug)/bin
-    export DYLD_LIBRARY_PATH=../lib
-
-leave ~/projects/work/nano-(premium|bcp)/cloudtv_client/output/mac/(release|debug)/bin
-    unset DYLD_LIBRARY_PATH

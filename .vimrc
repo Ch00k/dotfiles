@@ -6,7 +6,7 @@ Plug 'scrooloose/syntastic'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'qpkorr/vim-bufkill'
-Plug 'rking/ag.vim'
+Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/nerdcommenter'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
@@ -19,6 +19,7 @@ Plug 'tmhedberg/SimpylFold'
 call plug#end()
 
 let loaded_matchparen = 1
+
 set hlsearch
 set autoread
 set expandtab
@@ -40,9 +41,6 @@ set foldlevelstart=99
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*/__pycache__/*
 set completeopt-=preview
 
-let g:python_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3'
-
 nnoremap <BS> :noh<CR>
 
 colorscheme base16-flat
@@ -50,6 +48,8 @@ colorscheme base16-flat
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+let g:ackprg = 'ag --vimgrep --smart-case'
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -67,6 +67,7 @@ map <leader>[ :bp<CR>
 map <leader>] :bn<CR>
 map <leader>x :BD<CR>
 map <leader>m :CtrlPBuffer<CR>
+map <leader>l :set wrap!<CR>
 nnoremap <leader>s :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>a :wq<CR>

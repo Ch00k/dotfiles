@@ -1,7 +1,7 @@
 source ~/.profile
 
 export LC_ALL="en_US.UTF-8"
-export PATH=$PATH:$HOME/bin:$HOME/node_modules/.bin
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH:$HOME/bin:$HOME/node_modules/.bin
 export GOPATH=$HOME/.gopath
 
 export HISTSIZE=
@@ -78,6 +78,7 @@ alias ff-frames='ffprobe -v quiet -print_format json -show_frames'
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 alias jst='~/virtualenvs/jst/bin/python ~/projects/work/jst/jst -u $OS_USERNAME -p $OS_PASSWORD -c client'
 alias dm='docker-machine'
+alias tkill='tmux kill-session -t'
 
 # dircolors
 [[ -s "$HOME/.dircolors" ]] && eval `dircolors $HOME/.dircolors`
@@ -96,8 +97,7 @@ fi
 [[ -s "/Users/ay/.scm_breeze/scm_breeze.sh" ]] && source "/Users/ay/.scm_breeze/scm_breeze.sh"
 
 # tmuxp
-# TODO: Check if it exists first
-source tmuxp.bash
+eval "$(_TMUXP_COMPLETE=source tmuxp)"
 
 # RVM
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
@@ -116,6 +116,7 @@ fi
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 [[ -s "/usr/local/bin/virtualenvwrapper.sh" ]] && source /usr/local/bin/virtualenvwrapper.sh
 
 # DD-WRT
