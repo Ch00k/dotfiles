@@ -16,7 +16,7 @@
 	up = !git fetch && git rebase --autostash FETCH_HEAD
 
 [init]
-	templatedir = ~/.git-templates
+	templatedir = ~/.git_templates
 
 [color "diff"]
 	meta = yellow black

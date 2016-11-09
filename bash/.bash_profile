@@ -28,7 +28,7 @@ eval "$(_TMUXP_COMPLETE=source tmuxp)"
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-hash virtualenvwrapper.sh 2>/dev/null && virtualenvwrapper.sh
+hash virtualenvwrapper.sh 2>/dev/null && source virtualenvwrapper.sh
 
 # Remove entry from known_hosts
 kh() {
