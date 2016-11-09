@@ -1,0 +1,20 @@
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/bin:$PATH
+
+# Homebrew
+export HOMEBREW_GITHUB_API_TOKEN=
+
+# Git prompt
+export GIT_PS1_SHOWDIRTYSTATE=1
+[[ -s "/usr/local/etc/bash_completion.d/git-prompt.sh" ]] && source /usr/local/etc/bash_completion.d/git-prompt.sh
+if [ -n "$(type -t __git_ps1)" ]; then
+    PS1="\$(__git_ps1 [%s])$PS1"
+fi
+
+# Copy file contents
+rem() {
+    if [ -z "$1" ]; then
+        echo "Please provide the file path"
+    else
+        cat $1 | pbcopy
+    fi
+}

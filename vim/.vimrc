@@ -16,6 +16,8 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'hdima/python-syntax'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmhedberg/SimpylFold'
+Plug 'fatih/vim-go'
+Plug 'pearofducks/ansible-vim'
 call plug#end()
 
 let loaded_matchparen = 1
@@ -56,7 +58,13 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_go_checkers = ['golint']
+let g:syntastic_ansible_checkers = ['ansible-lint']
+
 let g:NERDTreeWinSize = 33
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
 let NERDTreeIgnore = ['\.pyc$', '__pycache__$', '.git$', '.tox$', '\.egg-info$', '.DS_Store$', '.cache$']
 
 let mapleader = ","
@@ -68,9 +76,19 @@ map <leader>] :bn<CR>
 map <leader>x :BD<CR>
 map <leader>m :CtrlPBuffer<CR>
 map <leader>l :set wrap!<CR>
+map <leader>; :Ack!<space>
 nnoremap <leader>s :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>a :wq<CR>
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+imap jj <Esc>
 
 xnoremap < <gv
 xnoremap > >gv
