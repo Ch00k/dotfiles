@@ -20,6 +20,8 @@ Plug 'fatih/vim-go'
 Plug 'pearofducks/ansible-vim'
 call plug#end()
 
+let base16colorspace=256
+
 let loaded_matchparen = 1
 
 set hlsearch
@@ -61,6 +63,8 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_go_checkers = ['golint']
 let g:syntastic_ansible_checkers = ['ansible-lint']
+
+let g:go_fmt_command = 'goimports'
 
 let g:NERDTreeWinSize = 33
 let g:NERDTreeDirArrowExpandable = '▸'
