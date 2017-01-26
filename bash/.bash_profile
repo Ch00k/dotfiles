@@ -30,6 +30,10 @@ export WORKON_HOME=$HOME/virtualenvs
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 hash virtualenvwrapper.sh 2>/dev/null && source virtualenvwrapper.sh
 
+# base16-shell
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
 # Remove entry from known_hosts
 kh() {
     if [ -z "$1" ]; then
