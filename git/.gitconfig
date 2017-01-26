@@ -2,6 +2,10 @@
     ui = true
 [push]
     default = current
+
+[pull]
+    default = current
+
 [core]
     excludesfile = ~/.gitignore_global
     editor = vim +start +'normal $'
