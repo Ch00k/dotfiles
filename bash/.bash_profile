@@ -34,29 +34,13 @@ hash virtualenvwrapper.sh 2>/dev/null && source virtualenvwrapper.sh
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-# Remove entry from known_hosts
-kh() {
-    if [ -z "$1" ]; then
-        echo "Please provide line number to remove"
-    else
-        sed -i "$1d" $HOME/.ssh/known_hosts
-    fi
-}
-
-# Tunnell remote port to local
-tunnel() {
-    ssh -L $2:localhost:$2 $1 -N
-}
-
-pyclean() {
-    find . -type f -name "*.py[co]" -delete
-    find . -type d -name "__pycache__" -delete
-}
-
-ansclean() {
-    find . -type f -name "*.retry" -delete
-}
-
+# ondir
 hash ondir 2>/dev/null && source $HOME/.bash_profile.d/ondir
 
-[[ `uname` == Darwin ]] && source $HOME/.bash_profile.d/osx
+platform=`uname`
+[[ -s "$HOME/.bash_profile.d/${platform,,}" ]] && source "$HOME/.bash_profile.d/${platform,,}"
+
+# Git
+export GIT_PS1_SHOWDIRTYSTATE=1
+[ -n "$(type -t __git_ps1)" ] && PS1="\$(__git_ps1 [%s])$PS1"
+source $HOME/.bash_profile.d/git_user

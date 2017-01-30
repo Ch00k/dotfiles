@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 PROJECT_ID=CTV  # change this to the project ID you are working on
 ISSUE_ID=$(git symbolic-ref HEAD | sed "s/.*\($PROJECT_ID-[0-9]*\).*/\1/")
 if [[ $ISSUE_ID == $PROJECT_ID-* ]]; then

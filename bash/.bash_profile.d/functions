@@ -1,0 +1,22 @@
+# Remove entry from known_hosts
+kh() {
+    if [ -z "$1" ]; then
+        echo "Please provide line number to remove"
+    else
+        sed -i "$1d" $HOME/.ssh/known_hosts
+    fi
+}
+
+# Tunnell remote port to local
+tunnel() {
+    ssh -L $2:localhost:$2 $1 -N
+}
+
+pyclean() {
+    find . -type f -name "*.py[co]" -delete
+    find . -type d -name "__pycache__" -delete
+}
+
+ansclean() {
+    find . -type f -name "*.retry" -delete
+}

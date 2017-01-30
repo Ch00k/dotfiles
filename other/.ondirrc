@@ -1,28 +1,4 @@
-# vi:syntax=sh
-
-enter ~/projects/personal
-    export GIT_AUTHOR_NAME=
-    export GIT_AUTHOR_EMAIL=
-    export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
-    export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
-
-leave ~/projects/personal
-    unset GIT_AUTHOR_NAME
-    unset GIT_AUTHOR_EMAIL
-
-enter ~/projects/work
-    export GIT_AUTHOR_NAME=
-    export GIT_AUTHOR_EMAIL=
-    export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
-    export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
-
-leave ~/projects/work
-    unset GIT_AUTHOR_NAME
-    unset GIT_AUTHOR_EMAIL
-    unset GIT_COMMITTER_NAME
-    unset GIT_COMMITTER_EMAIL
-
-enter ~/projects/(work|personal)/.*
+enter ~/projects/.*
     if [ -e .venv ]; then
         env=`cat .venv`
         if [ "$env" != "${VIRTUAL_ENV##*/}" ]; then
@@ -30,5 +6,5 @@ enter ~/projects/(work|personal)/.*
         fi
     fi
 
-leave ~/projects/(work|personal)/.*
+leave ~/projects/.*
     deactivate > /dev/null 2>&1
