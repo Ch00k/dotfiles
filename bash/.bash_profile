@@ -1,7 +1,7 @@
 export LC_ALL="en_US.UTF-8"
 
 export GOPATH=$HOME/.gopath
-export PATH=$PATH:$GOPATH/bin:$HOME/bin
+export PATH=$PATH:$GOPATH/bin:$HOME/bin:$HOME/.rvm/bin
 
 export HISTSIZE=
 export HISTFILESIZE=
@@ -45,3 +45,5 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 source $HOME/.bash_profile.d/git_user
 
 complete -cf sudo
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
