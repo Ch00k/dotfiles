@@ -16,14 +16,13 @@ alias vi='vim'
 alias tkill='tmux kill-session -t'
 alias mw='ssh mw -t tmux a'
 
+alias deadlib='sudo su -l -c deadlib'
+
 # PS1
 PS1="\[\e[34m\]\w \[\e[00m\]\j\[\e[32m\]\$\[\e[00m\] "
 
 # SCM Breeze
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
-
-# tmuxp
-eval "$(_TMUXP_COMPLETE=source tmuxp)"
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/virtualenvs
@@ -44,3 +43,5 @@ platform=`uname`
 export GIT_PS1_SHOWDIRTYSTATE=1
 [ -n "$(type -t __git_ps1)" ] && PS1="\$(__git_ps1 [%s])$PS1"
 source $HOME/.bash_profile.d/git_user
+
+complete -cf sudo
