@@ -19,7 +19,7 @@ alias mw='ssh mw -t tmux a'
 alias deadlib='sudo su -l -c deadlib'
 
 # PS1
-PS1="\[\e[34m\]\w \[\e[00m\]\j\[\e[32m\]\$\[\e[00m\] "
+PS1="\[\e[34m\]\e[32m\u@\\h\e[34m \w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
 
 # SCM Breeze
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
