@@ -1,4 +1,4 @@
-enter ~/projects/.*
+enter ~/projects/([^/]+)
     if [ -e .venv ]; then
         env=`cat .venv`
         if [ "$env" != "${VIRTUAL_ENV##*/}" ]; then
@@ -6,5 +6,5 @@ enter ~/projects/.*
         fi
     fi
 
-leave ~/projects/.*
+leave ~/projects/([^/]+)
     deactivate > /dev/null 2>&1
