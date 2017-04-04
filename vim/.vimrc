@@ -63,6 +63,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_go_checkers = ['golint']
 let g:syntastic_ansible_checkers = ['ansible-lint']
+let g:syntastic_javascript_checkers = ['jshint']
 
 let g:go_fmt_command = 'goimports'
 
@@ -106,6 +107,7 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufLeave,FocusLost,VimResized * silent! wall
 
 set undodir=$HOME/.vim/.undo//
 set backupdir=$HOME/.vim/.backup//
