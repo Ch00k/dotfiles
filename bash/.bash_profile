@@ -1,10 +1,12 @@
 export LC_ALL="en_US.UTF-8"
 
-export GOPATH=$HOME/.gopath
-export PATH=$PATH:$GOPATH/bin:$HOME/bin:$HOME/.rvm/bin
+export GOPATH=$HOME/projects/go
+export PATH=$PATH:$GOPATH/bin:$HOME/bin:$HOME/.rvm/bin:/usr/local/go/bin
 
 export HISTSIZE=
 export HISTFILESIZE=
+
+export SSH_AUTH_SOCK
 
 # Aliases
 alias ls='ls -G --color=auto'
@@ -19,7 +21,7 @@ alias mw='ssh mw -t tmux a'
 alias deadlib='sudo su -l -c deadlib'
 
 # PS1
-PS1="\[\e[34m\]\e[32m\u@\\h\e[34m \w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
+PS1="\[\e[32m\]\u@\h\[\e[34m\]\w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
 
 # SCM Breeze
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
@@ -47,3 +49,5 @@ source $HOME/.bash_profile.d/git_user
 complete -cf sudo
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+source $HOME/.bash_profile.d/functions
