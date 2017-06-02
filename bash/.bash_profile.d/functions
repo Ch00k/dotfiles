@@ -7,16 +7,28 @@ kh() {
     fi
 }
 
+
 # Tunnell remote port to local
 tunnel() {
     ssh -L $2:localhost:$2 $1 -N
 }
+
 
 pyclean() {
     find . -type f -name "*.py[co]" -delete
     find . -type d -name "__pycache__" -delete
 }
 
+
 ansclean() {
     find . -type f -name "*.retry" -delete
+}
+
+
+venv_ps1() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        # TODO: Figure out how to make echo interpret \[ and \]
+        #echo -en "\[\e[33m\][$(basename $VIRTUAL_ENV)]\[\e[0m\]"
+        echo "[$(basename $VIRTUAL_ENV)]"
+    fi
 }
