@@ -3,6 +3,11 @@ export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/gnu-sed/libex
 # bash_completion
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
+# SSH agent in tmux
+# /private/tmp/com.apple.launchd.oUWr30wwcM/Listeners
+ln -sf $(find /private/tmp -maxdepth 2 -type s -name "Listeners" -user $USER -printf '%T@ %p\n' 2>/dev/null |sort -n|tail -1|cut -d' ' -f2) ~/.ssh/ssh_auth_sock
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+
 # Homebrew
 export HOMEBREW_GITHUB_API_TOKEN=
 
