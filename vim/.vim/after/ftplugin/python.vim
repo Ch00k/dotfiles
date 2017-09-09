@@ -1,4 +1,4 @@
-set textwidth=101
-set colorcolumn=101
+set textwidth=79
+set colorcolumn=79
 
 let python_highlight_all = 1
