@@ -1,5 +1,5 @@
-export GIT_AUTHOR_NAME="Andriy Yurchuk"
-export GIT_AUTHOR_EMAIL=
+export GIT_AUTHOR_NAME="Andrii Yurchuk"
+export GIT_AUTHOR_EMAIL="andrii@eclecticiq.com"
 
 if [ -z "$GIT_AUTHOR_EMAIL" ]; then
     echo "GIT_AUTHOR_EMAIL not set"

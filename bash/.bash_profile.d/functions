@@ -16,7 +16,10 @@ tunnel() {
 
 pyclean() {
     find . -type f -name "*.py[co]" -delete
-    find . -type d -name "__pycache__" -delete
+    find . -path "*/__pycache__/*" -delete
+    find . -type d -name "__pycache__" -empty -delete
+    find . -path "*/*.egg-info/*" -delete
+    find . -type d -name "*.egg-info" -empty -delete
 }
 
 

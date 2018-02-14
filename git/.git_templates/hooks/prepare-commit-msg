@@ -1,8 +1,8 @@
 #!/bin/bash
-PROJECT_ID=CTV  # change this to the project ID you are working on
-ISSUE_ID=$(git symbolic-ref HEAD | sed "s/.*\($PROJECT_ID-[0-9]*\).*/\1/")
-if [[ $ISSUE_ID == $PROJECT_ID-* ]]; then
-    ISSUE_ID_IN_COMMIT=$(grep -c "\[$ISSUE_ID\]" $1)
+PROJECT_ID=TP  # change this to the project ID you are working on
+ISSUE_ID=$(git symbolic-ref HEAD | awk '{print toupper($0)}' | sed "s/.*\($PROJECT_ID[0-9]*\).*/\1/")
+if [[ $ISSUE_ID == $PROJECT_ID* ]]; then
+    ISSUE_ID_IN_COMMIT=$(grep -c "$ISSUE_ID" $1)
     if [ -n "$ISSUE_ID" ] && ! [[ $ISSUE_ID_IN_COMMIT -ge 1 ]]; then
         sed -i.bak -e "1s/^/$ISSUE_ID /" $1
     fi

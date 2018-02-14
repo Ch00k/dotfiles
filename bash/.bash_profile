@@ -11,8 +11,7 @@ export HISTFILESIZE=
 export SSH_AUTH_SOCK
 
 # Aliases
-alias ls='ls -G --color=auto'
-alias ll='ls -lahG --color=auto'
+alias ll='ls -lahG --group-directories-first --color=auto'
 alias grep='grep --color=auto'
 alias sudo='sudo '
 alias vi='vim'
@@ -20,6 +19,8 @@ alias vi='vim'
 alias tkill='tmux kill-session -t'
 alias mw='ssh mw -t tmux a'
 alias da='direnv allow'
+
+alias hpr='hub pull-request'
 
 alias deadlib='sudo su -l -c deadlib'
 
@@ -36,6 +37,10 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 # direnv
 eval "$(direnv hook bash)"
 
+# functions
+source $HOME/.bash_profile.d/functions
+
+# platform specific stuff
 platform=`uname`
 [[ -s "$HOME/.bash_profile.d/${platform,,}" ]] && source "$HOME/.bash_profile.d/${platform,,}"
 
@@ -44,16 +49,18 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 [ -n "$(type -t __git_ps1)" ] && PS1="\$(__git_ps1 [%s])$PS1"
 source $HOME/.bash_profile.d/git_user
 
+# bash completion for sudo
 complete -cf sudo
 
+# RVM
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-source $HOME/.bash_profile.d/functions
 
 # virtualenv PS1
 PS1='$(venv_ps1)'$PS1
 
+# pyenv
 eval "$(pyenv init -)"
 
+# NVM
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
