@@ -18,15 +18,15 @@
     lazy = false
 
 [alias]
-	up = !git fetch && git rebase --autostash FETCH_HEAD
+    up = !git fetch && git rebase --autostash FETCH_HEAD
     url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
     recommit = commit --amend --no-edit --reset-author
 
 [init]
-	templatedir = ~/.git_templates
+    templatedir = ~/.git_templates
 
 [color "diff"]
-	meta = yellow black
+    meta = yellow black
 
 [diff]
-	tool = vimdiff
+    tool = vimdiff
