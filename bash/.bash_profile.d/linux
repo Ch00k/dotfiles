@@ -1,3 +1,5 @@
+# vim: filetype=sh
+
 if [ -s /usr/share/git/git-prompt.sh ]; then
     source /usr/share/git/git-prompt.sh
 fi
@@ -5,3 +7,9 @@ fi
 # SSH agent in tmux
 ln -sf $(find /tmp -maxdepth 2 -type s -name "agent*" -user $USER -printf '%T@ %p\n' 2>/dev/null |sort -n|tail -1|cut -d' ' -f2) ~/.ssh/ssh_auth_sock
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+
+if [ -f /etc/gentoo-release ]; then
+    alias ep='emerge -pvuDU --keep-going=y --with-bdeps=y world'
+    alias e='emerge -vuDU --keep-going=y --with-bdeps=y world'
+    alias deadlib="sudo lsof | grep 'DEL.*lib' | cut -f 1 -d ' ' | sort -u"
+fi
