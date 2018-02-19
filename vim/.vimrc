@@ -29,6 +29,7 @@ let loaded_matchparen = 1
 set hlsearch
 set autoread
 set expandtab
+set modeline
 set tabstop=4
 set softtabstop=4
 set smarttab
@@ -49,6 +50,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*/__pycache__/*
 autocmd FileType python setlocal completeopt-=preview
 
 nnoremap <BS> :noh<CR>
+inoremap <BS> <nop>
 
 colorscheme base16-flat
 
@@ -118,6 +120,7 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_linters = {
 \   'python': ['flake8'],
+\   'go': ['gometalinter'],
 \}
 
 nmap <silent> <leader>( <Plug>(ale_previous_wrap)
