@@ -46,22 +46,24 @@ set timeoutlen=1000
 set ttimeoutlen=0
 set foldlevelstart=99
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*/__pycache__/*
-"set completeopt-=preview
-autocmd FileType python setlocal completeopt-=preview
+set completeopt-=preview
+"autocmd FileType python setlocal completeopt-=preview
 
-nnoremap <BS> :noh<CR>
-inoremap <BS> <nop>
 
 colorscheme base16-flat
 
 set statusline+=%#warningmsg#
 set statusline+=%*
 
-let g:ackprg = 'ag --vimgrep --smart-case'
+let g:ackprg = 'rg --vimgrep --smart-case'
 let g:ack_use_dispatch = 1
 
 let g:python_highlight_all = 1
 let g:python_highlight_operators = 0
+
+let g:go_highlight_functions = 1
+let g:go_highlight_types = 1
+let g:go_highlight_format_strings = 1
 
 let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 0
@@ -108,6 +110,8 @@ imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
 imap § <Esc>
+nnoremap <BS> :noh<CR>
+inoremap <BS> <nop>
 
 nmap <leader>t oimport pdb; pdb.set_trace()  # noqa E702<Esc>
 nmap <leader>y ofrom celery.contrib import rdb; rdb.set_trace()  # noqa E702<Esc>
@@ -120,11 +124,15 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_linters = {
 \   'python': ['flake8'],
-\   'go': ['gometalinter'],
 \}
+"\   'go': ['gometalinter'],
+"\}
 
 nmap <silent> <leader>( <Plug>(ale_previous_wrap)
 nmap <silent> <leader>) <Plug>(ale_next_wrap)
+
+let g:go_list_type = "locationlist"
+let g:go_list_height = 0
 
 let NERDTreeShowHidden = 1
 let g:airline#extensions#tabline#enabled = 1
