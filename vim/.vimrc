@@ -96,8 +96,6 @@ nnoremap <leader>h :split<CR>
 nnoremap <leader>/ :e $MYVIMRC<CR>
 nnoremap <leader>o :so $MYVIMRC<CR>
 nnoremap <leader>' :Ack!<C-r><C-w><CR>
-nmap <silent> <C--> <Plug>(ale_previous_wrap)
-nmap <silent> <C-+> <Plug>(ale_next_wrap)
 nnoremap <leader>o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
 "nnoremap * *#
 
@@ -125,14 +123,11 @@ let g:ale_lint_on_enter = 0
 let g:ale_linters = {
 \   'python': ['flake8'],
 \}
-"\   'go': ['gometalinter'],
-"\}
 
-nmap <silent> <leader>( <Plug>(ale_previous_wrap)
-nmap <silent> <leader>) <Plug>(ale_next_wrap)
+nmap <silent> <leader>9 <Plug>(ale_previous_wrap)
+nmap <silent> <leader>0 <Plug>(ale_next_wrap)
 
-let g:go_list_type = "locationlist"
-let g:go_list_height = 0
+let g:go_fmt_fail_silently = 1
 
 let NERDTreeShowHidden = 1
 let g:airline#extensions#tabline#enabled = 1
