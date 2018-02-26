@@ -9,7 +9,7 @@
 
 [core]
     excludesfile = ~/.gitignore_global
-    editor = vim +start +'normal \\$'
+    editor = vim
 
 [flake8]
     complexity = -1
