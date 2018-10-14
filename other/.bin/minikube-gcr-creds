@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+
+set aws "Do you want to enable AWS Elastic Container Registry? \\\[y/n\\\]: "
+set gcr "Do you want to enable Google Container Registry? \\\[y/n\\\]: "
+set gcr_creds "\\\-- Enter path to credentials (e.g. /home/user/.config/gcloud/application_default_credentials.json):"
+set gcr_creds_file "$env(HOME)/.config/gcloud/application_default_credentials.json\r"
+set change_gcr_url "\\\-- Do you want to change the GCR URL (Default https://gcr.io)? \\\[y/n\\\]: "
+set enter_gcr_url "\\\-- Enter GCR URL (e.g. https://asia.gcr.io):"
+set gcr_url "https://eu.gcr.io\r"
+set docker "Do you want to enable Docker Registry? \\\[y/n\\\]: "
+set success_conf "registry-creds was successfully configured"
+set success_enable "registry-creds was successfully enabled"
+
+set timeout 360
+
+spawn minikube addons configure registry-creds
+expect $aws { send "n\r" }
+expect $gcr { send "y\r" }
+expect $gcr_creds { send $gcr_creds_file }
+expect $change_gcr_url { send "y\r" }
+expect $enter_gcr_url { send $gcr_url }
+expect $docker { send "n\r" }
+expect $success_conf
+spawn minikube addons enable registry-creds
+expect success_enable

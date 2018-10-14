@@ -37,3 +37,41 @@ venv_ps1() {
         echo "[$(basename $VIRTUAL_ENV)]"
     fi
 }
+
+forward_service_port() {
+    env=$1
+    service=$2
+    local_port=${3:-9007}
+    remote_port=${4:-8000}
+
+    kctx $env
+    pod=$(kubectl get --no-headers=true pods -l app=$service -o custom-columns=:metadata.name | head -1)
+    kubectl port-forward $pod $local_port:$remote_port
+}
+
+get_service_psql_url() {
+    env=$1
+    service=$2
+
+    kctx $env >/dev/null 2>&1
+    pod=$(kubectl get --no-headers=true pods -l app=$service -o custom-columns=:metadata.name | head -1)
+    kubectl exec $pod env 2>/dev/null | grep DATABASE_URI | awk -F'=' '{print $2}' | sed s/5432/2345/
+}
+
+get_service_logs() {
+    env=$1
+    service=$2
+
+    kctx $env >/dev/null 2>&1
+    pod=$(kubectl get --no-headers=true pods -l app=$service -o custom-columns=:metadata.name | head -1)
+    kubectl logs -f $pod $service
+}
+
+update_commit_msg_hook() {
+    projects_dir="$HOME/projects"
+    commit_msg_hook="$HOME/.git_templates/hooks/prepare-commit-msg"
+    for p in $(ls -d -1 $projects_dir/**); do
+        hooks_dir="$p/.git/hooks"
+        [[ -d $hooks_dir ]] && cp $commit_msg_hook $hooks_dir
+    done
+}

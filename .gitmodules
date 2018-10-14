@@ -4,3 +4,9 @@
 [submodule "tmux/.tmux/plugins/tpm"]
 	path = tmux/.tmux/plugins/tpm
 	url = git@github.com:tmux-plugins/tpm.git
+[submodule "other/.base16-shell"]
+	path = other/.base16-shell
+	url = git@github.com:chriskempson/base16-shell.git
+[submodule "other/.scm_breeze"]
+	path = other/.scm_breeze
+	url = git@github.com:scmbreeze/scm_breeze.git

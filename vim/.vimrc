@@ -1,3 +1,7 @@
+if has('python3')
+  silent! python3 1
+endif
+
 call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -20,6 +24,19 @@ Plug 'fatih/vim-go'
 Plug 'pearofducks/ansible-vim'
 Plug 'tpope/vim-dispatch'
 Plug 'vim-python/python-syntax'
+Plug 'derekwyatt/vim-scala'
+Plug 'pedrohdz/vim-yaml-folds'
+Plug 'scrooloose/vim-slumlord'
+Plug 'aklt/plantuml-syntax'
+Plug 'kchmck/vim-coffee-script'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'elzr/vim-json'
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 let base16colorspace=256
@@ -55,8 +72,13 @@ colorscheme base16-flat
 set statusline+=%#warningmsg#
 set statusline+=%*
 
-let g:ackprg = 'rg --vimgrep --smart-case'
+set re=1
+
+let g:vim_json_syntax_conceal = 0
+
+let g:ackprg = 'ag --vimgrep --smart-case'
 let g:ack_use_dispatch = 1
+let g:ctrlp_working_path_mode = 'a'
 
 let g:python_highlight_all = 1
 let g:python_highlight_operators = 0
@@ -71,6 +93,9 @@ let g:jedi#smart_auto_mappings = 0
 let g:jedi#show_call_signatures = 2
 
 let g:go_fmt_command = 'goimports'
+
+let g:racer_cmd = "$HOME/.cargo/bin/racer"
+au FileType rust nmap <leader>d <Plug>(rust-def)
 
 let g:NERDTreeWinSize = 33
 let g:NERDTreeDirArrowExpandable = '▸'
@@ -94,10 +119,14 @@ nnoremap <leader>. :%bdelete<CR>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
 nnoremap <leader>/ :e $MYVIMRC<CR>
-nnoremap <leader>o :so $MYVIMRC<CR>
-nnoremap <leader>' :Ack!<C-r><C-w><CR>
-nnoremap <leader>o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
+"nnoremap <leader>o :so $MYVIMRC<CR>
+nnoremap <leader>' *:Ack!<C-r><C-w><CR>
+nnoremap <leader>o :!echo `git url`/tree/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
+nnoremap <leader>y "+yy
+nnoremap <leader>p "+pp
 "nnoremap * *#
+
+au FileType scala nnoremap <leader>d :EnDeclaration<CR>
 
 map <up> <nop>
 map <down> <nop>
@@ -109,10 +138,10 @@ imap <left> <nop>
 imap <right> <nop>
 imap § <Esc>
 nnoremap <BS> :noh<CR>
-inoremap <BS> <nop>
+"inoremap <BS> <nop>
 
 nmap <leader>t oimport pdb; pdb.set_trace()  # noqa E702<Esc>
-nmap <leader>y ofrom celery.contrib import rdb; rdb.set_trace()  # noqa E702<Esc>
+nmap <leader>u ofrom celery.contrib import rdb; rdb.set_trace()  # noqa E702<Esc>
 
 xnoremap < <gv
 xnoremap > >gv
@@ -121,8 +150,11 @@ xnoremap > >gv
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_linters = {
-\   'python': ['flake8'],
+\   'python': ['flake8', 'mypy'],
+\   'json': ['jsonlint'],
 \}
+
+let g:ale_python_mypy_options = '--ignore-missing-imports'
 
 nmap <silent> <leader>9 <Plug>(ale_previous_wrap)
 nmap <silent> <leader>0 <Plug>(ale_next_wrap)
@@ -141,9 +173,10 @@ let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:tmux_navigator_disable_when_zoomed = 1
 let g:tmux_navigator_save_on_switch = 2
 
+let g:gh_gitlab_domain = "gitlab.blockport.tech"
+
 let tw_blacklist = ['js']
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\s\+$//e
-
 
 " Disable default mapping since we are overriding it with our command
 let g:ctrlp_map = ''

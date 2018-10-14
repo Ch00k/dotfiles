@@ -1,0 +1,4 @@
+console_ui: false
+log: stdout
+log_format: logfmt
+region: eu

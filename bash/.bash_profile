@@ -1,9 +1,8 @@
 export LC_ALL="en_US.UTF-8"
 
-export GOPATH=$HOME/projects/go
-export PATH=$GOPATH/bin:$HOME/bin:$HOME/.rvm/bin:/usr/local/go/bin:$PATH
-
-export NVM_DIR="$HOME/.nvm"
+GOPATH=$HOME/projects/go
+export PATH=$GOPATH/bin:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PROMPT_COMMAND="history -a; history -n"
 
 export HISTSIZE=
 export HISTFILESIZE=
@@ -28,6 +27,10 @@ alias mw='ssh mw -t tmux a'
 alias da='direnv allow'
 
 alias hpr='hub pull-request'
+alias lmr='lab mr create'
+alias lis='lab issue create'
+alias dcup='docker-compose up'
+alias dcdown='docker-compose down'
 
 # PS1
 PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
@@ -36,7 +39,7 @@ PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
 
 # base16-shell
-BASE16_SHELL=$HOME/.config/base16-shell/
+BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # direnv
@@ -66,6 +69,24 @@ PS1='$(venv_ps1)'$PS1
 # pyenv
 hash pyenv 2>/dev/null && eval "$(pyenv init -)"
 
+# Rust
+[[ -s "$HOME/.cargo/env" ]] && source $HOME/.cargo/env
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
 # NVM
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && source "/usr/local/opt/nvm/nvm.sh"
+# N/A: version "N/A -> N/A" is not yet installed -> run `nvm alias default system`
+
+# jenv
+hash jenv 2>/dev/null && eval "$(jenv init -)"
+
+# fzf
+[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
+
+# gcloud
+basedir=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+path=$basedir/path.bash.inc
+completion=$basedir/completion.bash.inc
+[ -s $path ] && . $path
+[ -s $completion ] && . $completion

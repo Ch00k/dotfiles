@@ -1,0 +1,64 @@
+# vim: set ft=sh:
+
+use_python() {
+  local python_root=$(pyenv root)/versions/$1
+  load_prefix "$python_root"
+  if [[ -x "$python_root/bin/python" ]]; then
+    layout python "$python_root/bin/python"
+  else
+    echo "Error: $python_root/bin/python can't be executed."
+    exit
+  fi
+}
+
+export_alias() {
+  local name=$1
+  shift
+  local alias_dir=$PWD/.direnv/aliases
+  local target="$alias_dir/$name"
+  mkdir -p "$alias_dir"
+  PATH_add "$alias_dir"
+  echo "#!/usr/bin/env bash -e" > "$target"
+  echo "$@" >> "$target"
+  chmod +x "$target"
+}
+
+
+export_function() {
+  local name=$1
+  local alias_dir=$PWD/.direnv/aliases
+  mkdir -p "$alias_dir"
+  PATH_add "$alias_dir"
+  local target="$alias_dir/$name"
+  if declare -f "$name" >/dev/null; then
+    echo "#!/usr/bin/env bash" > "$target"
+    declare -f "$name" >> "$target" 2>/dev/null
+    # Notice that we add shell variables to the function trigger.
+    echo "$name \$*" >> "$target"
+    chmod +x "$target"
+  fi
+}
+
+use_node() {
+  layout node
+
+  local node_version=$1
+
+  if [ "$node_version" == "package.json" ]; then
+    # Requires jq: `brew install jq`
+    node_version=`jq --raw-output .engines.node package.json | tr -d "<=> "`
+  fi
+
+  local node_path=${NVM_DIR}/versions/node
+
+  if [ -x "$node_path/$node_version/bin/node" ]; then
+    PATH_add $node_path/$node_version/bin
+  elif [ -x "$node_path/v$node_version/bin/node" ]; then
+    # Support nvm users (nvm prefixes versions with 'v')
+    PATH_add $node_path/v$node_version/bin
+  else
+    echo "!!! Node.js version $node_version is not installed"
+  fi
+
+  export NODE_PATH=./node_modules
+}
