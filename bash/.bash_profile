@@ -1,8 +1,8 @@
 export LC_ALL="en_US.UTF-8"
 
-GOPATH=$HOME/projects/go
-export PATH=$GOPATH/bin:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PROMPT_COMMAND="history -a; history -n"
+export GOPATH=$HOME/projects/go
+export GOBIN=$GOPATH/bin
+export PATH=$GOBIN:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 export HISTSIZE=
 export HISTFILESIZE=
@@ -26,6 +26,7 @@ alias tkill='tmux kill-session -t'
 alias mw='ssh mw -t tmux a'
 alias da='direnv allow'
 
+alias m='gco master && gpl'
 alias hpr='hub pull-request'
 alias lmr='lab mr create'
 alias lis='lab issue create'
@@ -71,7 +72,7 @@ hash pyenv 2>/dev/null && eval "$(pyenv init -)"
 
 # Rust
 [[ -s "$HOME/.cargo/env" ]] && source $HOME/.cargo/env
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+hash rustc 2>/dev/null && export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"

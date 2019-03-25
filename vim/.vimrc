@@ -27,7 +27,6 @@ Plug 'vim-python/python-syntax'
 Plug 'derekwyatt/vim-scala'
 Plug 'pedrohdz/vim-yaml-folds'
 Plug 'scrooloose/vim-slumlord'
-Plug 'aklt/plantuml-syntax'
 Plug 'kchmck/vim-coffee-script'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
@@ -37,12 +36,19 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
+Plug 'Chiel92/vim-autoformat'
+"Plug 'TaDaa/vimade'
 call plug#end()
+
+set undodir=$HOME/.vim/.undo//
+set backupdir=$HOME/.vim/.backup//
+set directory=$HOME/.vim/.swp//
 
 let base16colorspace=256
 
 let loaded_matchparen = 1
 
+"set undofile
 set hlsearch
 set autoread
 set expandtab
@@ -62,6 +68,7 @@ set ttyfast
 set timeoutlen=1000
 set ttimeoutlen=0
 set foldlevelstart=99
+set foldmethod=syntax
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*/__pycache__/*
 set completeopt-=preview
 "autocmd FileType python setlocal completeopt-=preview
@@ -73,6 +80,11 @@ set statusline+=%#warningmsg#
 set statusline+=%*
 
 set re=1
+
+"let g:vimade = {
+"  \ "basebg": [255,255,255],
+"  \ "basefg": [0,0,0],
+"  \}
 
 let g:vim_json_syntax_conceal = 0
 
@@ -127,6 +139,7 @@ nnoremap <leader>p "+pp
 "nnoremap * *#
 
 au FileType scala nnoremap <leader>d :EnDeclaration<CR>
+au FileType go nnoremap <leader>d :GoDef<CR>
 
 map <up> <nop>
 map <down> <nop>
@@ -177,6 +190,8 @@ let g:gh_gitlab_domain = "gitlab.blockport.tech"
 
 let tw_blacklist = ['js']
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\s\+$//e
+autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\($\n\)\+\%$//e
+autocmd BufWrite *.py :Autoformat
 
 " Disable default mapping since we are overriding it with our command
 let g:ctrlp_map = ''
@@ -199,7 +214,5 @@ nnoremap <leader>k :call SwitchToWriteableBufferAndExec('CtrlPMRUFiles')<CR>
 nnoremap <leader>m :call SwitchToWriteableBufferAndExec('CtrlPBuffer')<CR>
 
 autocmd BufLeave,FocusLost,VimResized * silent! wall
-
-set undodir=$HOME/.vim/.undo//
-set backupdir=$HOME/.vim/.backup//
-set directory=$HOME/.vim/.swp//
+autocmd BufRead,BufNewFile .envrc set filetype=sh
+autocmd BufRead,BufNewFile requirements* set filetype=conf

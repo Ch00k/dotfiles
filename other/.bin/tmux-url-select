@@ -22,9 +22,6 @@ use constant PROMPT_COLOR => "\033[42;30m";
 use constant NORMAL_LINK_HIGHLIGHT => "\033[33;4m";
 use constant ACTIVE_LINK_HIGHLIGHT => "\033[33;3m";
 
-#https://foo.bar.com
-#https://foo.bar.com
-
 # other options:
 # - blue background, underlined: \033[44;4m
 # - 256 color term light blue: \033[38;5;39m

@@ -1,14 +1,31 @@
-# vim: set ft=sh:
+# vim: set ft=bash:
 
-use_python() {
-  local python_root=$(pyenv root)/versions/$1
+realpath() {
+    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+
+layout_pyenv() {
+  local python_version=$1
+  local python_root=$(pyenv root)/versions/$python_version
   load_prefix "$python_root"
-  if [[ -x "$python_root/bin/python" ]]; then
-    layout python "$python_root/bin/python"
-  else
-    echo "Error: $python_root/bin/python can't be executed."
-    exit
+  local python="$python_root/bin/python"
+  if [[ ! -x "$python" ]]; then
+    log_error "Error: $python can't be executed."
+    return 1
   fi
+  [[ $# -gt 0 ]] && shift
+  unset PYTHONHOME
+  if [[ -n $VIRTUAL_ENV ]]; then
+    VIRTUAL_ENV=$(realpath "${VIRTUAL_ENV}")
+  else
+    VIRTUAL_ENV=$PWD/.direnv/$python_version
+  fi
+  export VIRTUAL_ENV
+  if [[ ! -d $VIRTUAL_ENV ]]; then
+    log_status "No virtual environment found. Creating $VIRTUAL_ENV"
+    "$python" -m venv "$VIRTUAL_ENV"
+  fi
+  PATH_add "$VIRTUAL_ENV/bin"
 }
 
 export_alias() {
@@ -62,3 +79,5 @@ use_node() {
 
   export NODE_PATH=./node_modules
 }
+
+source_up
