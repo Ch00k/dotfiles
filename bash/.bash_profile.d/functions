@@ -5,7 +5,7 @@ kh() {
     if [ -z "$1" ]; then
         echo "Please provide line number to remove"
     else
-        sed -i "$1d" $HOME/.ssh/known_hosts
+        gsed -i "$1d" $HOME/.ssh/known_hosts
     fi
 }
 

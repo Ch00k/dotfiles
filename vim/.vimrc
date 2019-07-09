@@ -15,7 +15,7 @@ Plug 'tpope/vim-sensible'
 Plug 'scrooloose/nerdcommenter'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'ervandew/supertab'
-Plug 'chriskempson/base16-vim'
+Plug 'danielwe/base16-vim'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmhedberg/SimpylFold'
@@ -103,6 +103,7 @@ let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#show_call_signatures = 2
+let g:jedi#goto_stubs_command = ''
 
 let g:go_fmt_command = 'goimports'
 
@@ -123,7 +124,8 @@ map <leader>] :bn<CR>
 map <leader>x :BD<CR>
 map <leader>l :set wrap!<CR>
 map <leader>; :Ack!<space>
-nnoremap <leader>s :w<CR>
+"nnoremap <leader>s :w<CR>
+map <leader>s :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>z :qa<CR>
 nnoremap <leader>a :wq<CR>
@@ -133,9 +135,10 @@ nnoremap <leader>h :split<CR>
 nnoremap <leader>/ :e $MYVIMRC<CR>
 "nnoremap <leader>o :so $MYVIMRC<CR>
 nnoremap <leader>' *:Ack!<C-r><C-w><CR>
-nnoremap <leader>o :!echo `git url`/tree/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
-nnoremap <leader>y "+yy
-nnoremap <leader>p "+pp
+nnoremap <leader>o :!echo `git url`/src/`git rev-parse --abbrev-ref HEAD`/%\#lines-<C-R>=line('.')<CR> \| xargs open<CR><CR>
+noremap <leader>y "+y
+noremap <leader>Y "+yy
+noremap <leader>p "+p
 "nnoremap * *#
 
 au FileType scala nnoremap <leader>d :EnDeclaration<CR>

@@ -2,13 +2,17 @@ export LC_ALL="en_US.UTF-8"
 
 export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
-export PATH=$GOBIN:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$GOBIN:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/python/libexec/bin:/usr/local/opt/postgresql@9.5/bin:$PATH
 
 export HISTSIZE=
 export HISTFILESIZE=
 
 #eval `ssh-agent`
-export SSH_AUTH_SOCK
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+#export SSH_AUTH_SOCK
+
+export LPASS_ASKPASS=lp-ap
 
 # Aliases
 if hash exa 2>/dev/null; then
@@ -27,14 +31,19 @@ alias mw='ssh mw -t tmux a'
 alias da='direnv allow'
 
 alias m='gco master && gpl'
+alias d='gco develop && gpl'
 alias hpr='hub pull-request'
 alias lmr='lab mr create'
+alias kpr='ket pull-request create'
 alias lis='lab issue create'
 alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
 
 # PS1
 PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
+
+# bash completion
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 # SCM Breeze
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
@@ -49,9 +58,8 @@ hash direnv 2>/dev/null && eval "$(direnv hook bash)"
 # functions
 source $HOME/.bash_profile.d/functions
 
-# platform specific stuff
-platform=`uname`
-[[ -s "$HOME/.bash_profile.d/${platform,,}" ]] && source "$HOME/.bash_profile.d/${platform,,}"
+platform="$(tr [A-Z] [a-z] <<< `uname`)"
+[[ -s "$HOME/.bash_profile.d/$platform" ]] && source "$HOME/.bash_profile.d/$platform"
 
 # Git
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -83,7 +91,7 @@ export NVM_DIR="$HOME/.nvm"
 hash jenv 2>/dev/null && eval "$(jenv init -)"
 
 # fzf
-[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
+hash fzf 2>/dev/null && [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 
 # gcloud
 basedir=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
