@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ -n "$TMUX" ]; then
+    /usr/bin/xsel --display $(tmux show-environment | grep "^DISPLAY" | cut -d'=' -f2) $@
+else
+    /usr/bin/xsel $@
+fi

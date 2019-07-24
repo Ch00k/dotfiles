@@ -10,7 +10,8 @@ use warnings;
 ### config
 
 use constant COMMAND => 'open %s';
-use constant YANK_COMMAND => 'echo %s | pbcopy';
+#use constant YANK_COMMAND => 'echo %s | pbcopy';
+use constant YANK_COMMAND => 'echo %s | xsel -ib';
 
 use constant SHOW_STATUS_BAR => 1;
 use constant VERBOSE_MESSAGES => 0;

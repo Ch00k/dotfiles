@@ -37,6 +37,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'Chiel92/vim-autoformat'
+Plug 'christoomey/vim-system-copy'
 "Plug 'TaDaa/vimade'
 call plug#end()
 
@@ -71,6 +72,8 @@ set foldlevelstart=99
 set foldmethod=syntax
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*/__pycache__/*
 set completeopt-=preview
+set clipboard=
+set guicursor=
 "autocmd FileType python setlocal completeopt-=preview
 
 
@@ -190,6 +193,9 @@ let g:tmux_navigator_disable_when_zoomed = 1
 let g:tmux_navigator_save_on_switch = 2
 
 let g:gh_gitlab_domain = "gitlab.blockport.tech"
+
+let g:formatdef_multiple = '"isort - | black -q -"'
+let g:formatters_python = ['multiple']
 
 let tw_blacklist = ['js']
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\s\+$//e

@@ -2,3 +2,5 @@ set completion-query-items 0
 set page-completions off
 
 set keyseq-timeout 0
+
+"\C-x": beginning-of-line

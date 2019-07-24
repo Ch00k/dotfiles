@@ -2,15 +2,23 @@ export LC_ALL="en_US.UTF-8"
 
 export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
-export PATH=$GOBIN:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/python/libexec/bin:/usr/local/opt/postgresql@9.5/bin:/home/linuxbrew/.linuxbrew/opt/postgresql@9.6/bin:$PATH
+PATH=$GOBIN:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/python/libexec/bin:/usr/local/opt/postgresql@9.5/bin:/home/linuxbrew/.linuxbrew/opt/postgresql@9.6/bin:/home/linuxbrew/.linuxbrew/opt/man-db/libexec/bin:$PATH
+export PATH=$(n= IFS=':'; for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done; echo "${n:0: -1}")
+
+# Linuxbrew
+[ -d /home/linuxbrew/.linuxbrew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 export HISTSIZE=
 export HISTFILESIZE=
 
-#eval `ssh-agent`
-export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-#export SSH_AUTH_SOCK
+export EDITOR=vim
+export MANPAGER=less
+
+if [ ! -n "$SSH_CONNECTION" ]; then
+    export GPG_TTY="$(tty)"
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+    gpgconf --launch gpg-agent
+fi
 
 export LPASS_ASKPASS=lp-ap
 
@@ -21,9 +29,11 @@ else
     alias ll='LC_ALL=C ls -lahG --group-directories-first --color=auto'
 fi
 
+alias sbp='source $HOME/.bash_profile'
 alias grep='grep --color=auto'
 alias sudo='sudo '
-alias vi='vim'
+alias vi='nvim'
+alias vim='nvim'
 alias ta='tmux a'
 
 alias tkill='tmux kill-session -t'
@@ -38,12 +48,16 @@ alias kpr='ket pull-request create'
 alias lis='lab issue create'
 alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
+alias sal='ssh-add -l'
 
 # PS1
 PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
 
-# Linuxbrew
-[ -d /home/linuxbrew/.linuxbrew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+# direnv
+hash direnv 2>/dev/null && eval "$(direnv hook bash)"
+
+# preexec
+#[ -f /home/linuxbrew/.linuxbrew/etc/profile.d/bash-preexec.sh ] && . /home/linuxbrew/.linuxbrew/etc/profile.d/bash-preexec.sh
 
 # bash completion
 brew_prefix=$(brew --prefix)
@@ -55,9 +69,6 @@ brew_prefix=$(brew --prefix)
 # base16-shell
 BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
-# direnv
-hash direnv 2>/dev/null && eval "$(direnv hook bash)"
 
 # functions
 source $HOME/.bash_profile.d/functions

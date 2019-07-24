@@ -35,7 +35,7 @@ export_alias() {
   local target="$alias_dir/$name"
   mkdir -p "$alias_dir"
   PATH_add "$alias_dir"
-  echo "#!/usr/bin/env bash -e" > "$target"
+  echo "#!/usr/bin/env -S bash -e" > "$target"
   echo "$@" >> "$target"
   chmod +x "$target"
 }

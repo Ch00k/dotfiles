@@ -5,11 +5,27 @@ if [ -s /usr/share/git/git-prompt.sh ]; then
 fi
 
 # SSH agent in tmux
-ln -sf $(find /tmp -maxdepth 2 -type s -name "agent*" -user $USER -printf '%T@ %p\n' 2>/dev/null |sort -n|tail -1|cut -d' ' -f2) ~/.ssh/ssh_auth_sock
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-
-if [ -f /etc/gentoo-release ]; then
-    alias ep='emerge -pvuDU --keep-going=y --with-bdeps=y world'
-    alias e='emerge -vuDU --keep-going=y --with-bdeps=y world'
-    alias deadlib="sudo lsof | grep 'DEL.*lib' | cut -f 1 -d ' ' | sort -u"
+if [ -n "$SSH_CONNECTION" ] && [ ! -n "$TMUX" ]; then
+    ln -sf $(find /tmp -maxdepth 2 -type s -name "agent*" -user $USER -printf '%T@ %p\n' 2>/dev/null |sort -n|tail -1|cut -d' ' -f2) ~/.ssh/.auth_sock
+    export SSH_AUTH_SOCK=~/.ssh/.auth_sock
 fi
+
+#if [ -f /etc/gentoo-release ]; then
+#    alias ep='emerge -pvuDU --keep-going=y --with-bdeps=y world'
+#    alias e='emerge -vuDU --keep-going=y --with-bdeps=y world'
+#    alias deadlib="sudo lsof | grep 'DEL.*lib' | cut -f 1 -d ' ' | sort -u"
+#fi
+
+if [ -n "$TMUX" ]; then
+    refresh() {
+        export $(tmux show-environment | grep "^DISPLAY")
+    }
+else
+    refresh() {
+        :
+    }
+fi
+
+preexec() {
+    refresh
+}
