@@ -20,7 +20,8 @@ if [ ! -n "$SSH_CONNECTION" ]; then
     gpgconf --launch gpg-agent
 fi
 
-export LPASS_ASKPASS=lp-ap
+export LPASS_DISABLE_PINENTRY=1
+export LPASS_ASKPASS=/Users/ay/.bin/lp-ap
 
 # Aliases
 if hash exa 2>/dev/null; then
@@ -38,6 +39,7 @@ alias ta='tmux a'
 
 alias tkill='tmux kill-session -t'
 alias mw='ssh mw -t tmux a'
+alias dev='ssh aygcp -t /home/linuxbrew/.linuxbrew/bin/tmux a'
 alias da='direnv allow'
 
 alias m='gco master && gpl'
