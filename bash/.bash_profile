@@ -1,6 +1,9 @@
 export LC_ALL="en_US.UTF-8"
 
-PATH=$HOME/.bin:$HOME/.local/bin:$PATH
+export EDITOR=vim
+export MANPAGER=less
+export HISTSIZE=
+export HISTFILESIZE=
 
 HOMEBREW_PATHS=( \
     opt/coreutils/libexec/gnubin \
@@ -29,12 +32,6 @@ platform="$(tr [A-Z] [a-z] <<< `uname`)"
 if [[ -s "$HOME/.bash_profile.d/$platform" ]]; then
     source "$HOME/.bash_profile.d/$platform"
 fi
-
-export HISTSIZE=
-export HISTFILESIZE=
-
-export EDITOR=vim
-export MANPAGER=less
 
 if [ ! -n "$SSH_CONNECTION" ]; then
     export GPG_TTY="$(tty)"
@@ -74,6 +71,7 @@ alias lis='lab issue create'
 alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
+
 
 export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
@@ -170,7 +168,7 @@ PS1='$(venv_ps1)'$PS1
 # bash completion for sudo
 complete -cf sudo
 
-
+PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 export PATH=$(n= IFS=':'; for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done; echo "${n:0: -1}")
 
-[[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]] && hash tmux 2>/dev/null && tmux attach || true
+if [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]] && hash tmux 2>/dev/null && tmux attach || true

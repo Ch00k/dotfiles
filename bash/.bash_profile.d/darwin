@@ -1,16 +1,5 @@
 # vim: filetype=sh
 
-# bash_completion
-[ -f /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion
-
-# SSH agent in tmux
-# /private/tmp/com.apple.launchd.oUWr30wwcM/Listeners
-#ln -sf $(find /private/tmp -maxdepth 2 -type s -name "Listeners" -user $USER -printf '%T@ %p\n' 2>/dev/null |sort -n|tail -1|cut -d' ' -f2) ~/.ssh/ssh_auth_sock
-#export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-
-# Homebrew
-export HOMEBREW_GITHUB_API_TOKEN=
-
 # Copy file contents
 rem() {
     if [ -z "$1" ]; then
