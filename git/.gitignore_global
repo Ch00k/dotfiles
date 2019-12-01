@@ -17,4 +17,5 @@ __pycache__/*
 .direnv
 .python-version
 .air.conf
+.ignore
 tmp

@@ -2,7 +2,7 @@ export LC_ALL="en_US.UTF-8"
 
 export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
-PATH=$GOBIN:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/python/libexec/bin:/usr/local/opt/postgresql@9.5/bin:/home/linuxbrew/.linuxbrew/opt/postgresql@9.6/bin:/home/linuxbrew/.linuxbrew/opt/man-db/libexec/bin:$PATH
+PATH=$GOBIN:$HOME/.bin:$HOME/.local/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/python/libexec/bin:/usr/local/opt/postgresql@9.5/bin:/home/linuxbrew/.linuxbrew/opt/postgresql@9.6/bin:/home/linuxbrew/.linuxbrew/opt/man-db/libexec/bin:/home/linuxbrew/.linuxbrew/opt/gnu-sed/bin:$PATH
 export PATH=$(n= IFS=':'; for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done; echo "${n:0: -1}")
 
 # Linuxbrew
@@ -20,8 +20,7 @@ if [ ! -n "$SSH_CONNECTION" ]; then
     gpgconf --launch gpg-agent
 fi
 
-export LPASS_DISABLE_PINENTRY=1
-export LPASS_ASKPASS=/Users/ay/.bin/lp-ap
+#export LPASS_ASKPASS=lp-ap
 
 # Aliases
 if hash exa 2>/dev/null; then
@@ -36,16 +35,16 @@ alias sudo='sudo '
 alias vi='nvim'
 alias vim='nvim'
 alias ta='tmux a'
+alias grbo='grb origin/$DEFAULT_BRANCH'
 
 alias tkill='tmux kill-session -t'
 alias mw='ssh mw -t tmux a'
 alias dev='ssh aygcp -t /home/linuxbrew/.linuxbrew/bin/tmux a'
 alias da='direnv allow'
 
-alias m='gco master && gpl'
-alias d='gco develop && gpl'
+alias pl='gco $DEFAULT_BRANCH && gpl'
 alias hpr='hub pull-request'
-alias lmr='lab mr create'
+alias lmr='lab mr create origin $DEFAULT_BRANCH -s -d'
 alias kpr='ket pull-request create'
 alias lis='lab issue create'
 alias dcup='docker-compose up'
@@ -116,3 +115,5 @@ path=$basedir/path.bash.inc
 completion=$basedir/completion.bash.inc
 [ -s $path ] && . $path
 [ -s $completion ] && . $completion
+
+[[ -z "$TMUX" ]] && tmux attach || true

@@ -75,6 +75,9 @@ set completeopt-=preview
 set clipboard=
 set guicursor=
 "autocmd FileType python setlocal completeopt-=preview
+set textwidth=90
+set colorcolumn=90
+
 
 
 colorscheme base16-flat
@@ -91,7 +94,8 @@ set re=1
 
 let g:vim_json_syntax_conceal = 0
 
-let g:ackprg = 'ag --vimgrep --smart-case'
+"let g:ackprg = 'ag --vimgrep --smart-case'
+let g:ackprg = 'ag --vimgrep --case-sensitive'
 let g:ack_use_dispatch = 1
 let g:ctrlp_working_path_mode = 'a'
 
@@ -138,7 +142,7 @@ nnoremap <leader>h :split<CR>
 nnoremap <leader>/ :e $MYVIMRC<CR>
 "nnoremap <leader>o :so $MYVIMRC<CR>
 nnoremap <leader>' *:Ack!<C-r><C-w><CR>
-nnoremap <leader>o :!echo `git url`/src/`git rev-parse --abbrev-ref HEAD`/%\#lines-<C-R>=line('.')<CR> \| xargs open<CR><CR>
+nnoremap <leader>o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR><CR>
 noremap <leader>y "+y
 noremap <leader>Y "+yy
 noremap <leader>p "+p
@@ -159,7 +163,7 @@ imap § <Esc>
 nnoremap <BS> :noh<CR>
 "inoremap <BS> <nop>
 
-nmap <leader>t oimport pdb; pdb.set_trace()  # noqa E702<Esc>
+nmap <leader>t o__import__("pdb").set_trace()<Esc>
 nmap <leader>u ofrom celery.contrib import rdb; rdb.set_trace()  # noqa E702<Esc>
 
 xnoremap < <gv

@@ -21,7 +21,7 @@
 [alias]
     up = !git fetch && git rebase --autostash FETCH_HEAD
     ;url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
-    url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/bitbucket\\\\.org\\\\/\\\\1/g"'
+    url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/gitlab\\\\.com\\\\/\\\\1/g"'
     recommit = commit --amend --no-edit --reset-author
 
 [init]
