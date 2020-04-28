@@ -10,6 +10,7 @@ HOMEBREW_PATHS=( \
     opt/findutils/libexec/gnubin \
     opt/gnu-sed/libexec/gnubin \
     opt/postgresql@9.6/bin \
+    opt/openssl@1.1/bin \
     opt/gnu-sed/bin \
     opt/man-db/libexec/bin \
 )

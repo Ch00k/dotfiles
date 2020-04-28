@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo -n "$*: " >/dev/stderr
+pass show work/web/lastpass.com | head -1

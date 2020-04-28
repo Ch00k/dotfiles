@@ -98,9 +98,11 @@ let g:vim_json_syntax_conceal = 0
 let g:ackprg = 'ag --vimgrep --case-sensitive'
 let g:ack_use_dispatch = 1
 let g:ctrlp_working_path_mode = 'a'
+let g:ctrlp_custom_ignore = ''
 
 let g:python_highlight_all = 1
 let g:python_highlight_operators = 0
+let g:python_highlight_func_calls = 0
 
 let g:go_highlight_functions = 1
 let g:go_highlight_types = 1
@@ -130,6 +132,7 @@ map <leader>[ :bp<CR>
 map <leader>] :bn<CR>
 map <leader>x :BD<CR>
 map <leader>l :set wrap!<CR>
+map <leader>w ggVGgq<C-o><C-o>
 map <leader>; :Ack!<space>
 "nnoremap <leader>s :w<CR>
 map <leader>s :w<CR>
@@ -198,6 +201,9 @@ let g:tmux_navigator_save_on_switch = 2
 
 let g:gh_gitlab_domain = "gitlab.blockport.tech"
 
+"let g:python_host_prog = '/home/linuxbrew/.linuxbrew/bin/python'
+"let g:python3_host_prog = '/home/linuxbrew/.linuxbrew/bin/python3'
+
 let g:formatdef_multiple = '"isort - | black -q -"'
 let g:formatters_python = ['multiple']
 
@@ -205,6 +211,7 @@ let tw_blacklist = ['js']
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\s\+$//e
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\($\n\)\+\%$//e
 autocmd BufWrite *.py :Autoformat
+autocmd BufWrite *.go :GoDiagnostics
 
 " Disable default mapping since we are overriding it with our command
 let g:ctrlp_map = ''
