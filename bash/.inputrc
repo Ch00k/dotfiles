@@ -3,4 +3,7 @@ set page-completions off
 
 set keyseq-timeout 0
 
-"\C-x": beginning-of-line
+#"\C-x": beginning-of-line
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[3~": delete-char

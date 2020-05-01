@@ -56,6 +56,8 @@ else
     alias vi='vim'
 fi
 
+DEFAULT_BRANCH=master
+
 alias sbp='source $HOME/.bash_profile'
 alias grep='grep --color=auto'
 alias sudo='sudo '
