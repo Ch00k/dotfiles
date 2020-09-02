@@ -8,6 +8,9 @@
     default = current
 	rebase = true
 
+[push]
+    default = current
+
 [core]
     excludesfile = ~/.gitignore_global
     editor = nvim

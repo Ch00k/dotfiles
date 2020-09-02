@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set +x
+
+LIGHT_THEME=cupertino
+DARK_THEME=flat
+CURRENT_THEME=$(basename $(readlink -f $HOME/.base16_theme))
+
+BASE16_SHELL=$HOME/.base16-shell
+if [[ -s $BASE16_SHELL/profile_helper.sh ]]; then
+    eval "$($BASE16_SHELL/profile_helper.sh)"
+fi
+
+if [[ ${CURRENT_THEME%".sh"} == "base16-$LIGHT_THEME" ]]; then
+    _base16 "$BASE16_SHELL/scripts/base16-$DARK_THEME.sh" $DARK_THEME
+    source $HOME/.base16-fzf/bash/base16-$DARK_THEME.config
+else
+    _base16 "$BASE16_SHELL/scripts/base16-$LIGHT_THEME.sh" $LIGHT_THEME
+    source $HOME/.base16-fzf/bash/base16-$LIGHT_THEME.config
+fi

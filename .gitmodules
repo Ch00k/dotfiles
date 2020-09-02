@@ -10,3 +10,6 @@
 [submodule "other/.scm_breeze"]
 	path = other/.scm_breeze
 	url = git@github.com:scmbreeze/scm_breeze.git
+[submodule "other/.base16-fzf"]
+	path = other/.base16-fzf
+	url = git@github.com:nicodebo/base16-fzf.git

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 export LC_ALL="en_US.UTF-8"
 
 export EDITOR=vim
@@ -75,10 +77,15 @@ alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
 
+gta() {
+    gt -a $1 -m $1 && gps origin $1
+}
 
 export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
 PATH=$GOBIN:$PATH
+
+PATH=$HOME/.cargo/bin:$PATH
 
 # PS1
 PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
@@ -166,7 +173,8 @@ if [[ -s $completion ]]; then
 fi
 
 # virtualenv PS1
-PS1='$(venv_ps1)'$PS1
+PS1='\[\e[2m\]$(venv_ps1)\[\e[0m\]'$PS1
+#PS1='$(venv_ps1)'$PS1
 
 # bash completion for sudo
 complete -cf sudo
