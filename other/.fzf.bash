@@ -13,3 +13,5 @@ fi
 # ------------
 [ -f /usr/local/opt/fzf/shell/key-bindings.bash ] && source "/usr/local/opt/fzf/shell/key-bindings.bash"
 [ -f /home/linuxbrew/.linuxbrew/opt/fzf/shell/key-bindings.bash ] && source "/home/linuxbrew/.linuxbrew/opt/fzf/shell/key-bindings.bash"
+
+source $HOME/.base16-fzf/bash/base16-flat.config
