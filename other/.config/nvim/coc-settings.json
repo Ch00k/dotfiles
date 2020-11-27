@@ -4,8 +4,11 @@
     "rust-analyzer.serverPath": "/home/ay/.cargo/bin/rust-analyzer",
     "rust-analyzer.inlayHints.chainingHints": false,
 
+    "python.hideInterpreterName": true,
     "python.formatting.provider": "black",
     "python.sortImports.path": "isort",
-    "python.linting.mypyEnabled": true
+    "python.linting.mypyEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false
 
 }
