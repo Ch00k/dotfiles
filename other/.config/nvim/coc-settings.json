@@ -1,7 +1,7 @@
 {
     "coc.preferences.formatOnSaveFiletypes": [ "python", "rust" ],
 
-    "rust-analyzer.serverPath": "/home/ay/.cargo/bin/rust-analyzer",
+    "rust-analyzer.serverPath": "/home/ay/.bin/rust-analyzer",
     "rust-analyzer.inlayHints.chainingHints": false,
 
     "python.hideInterpreterName": true,
