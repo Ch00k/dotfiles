@@ -54,6 +54,7 @@ fi
 if hash nvim 2>/dev/null; then
     alias vi='nvim'
     alias vim='nvim'
+    alias vimdiff='nvim -d'
 else
     alias vi='vim'
 fi
@@ -70,7 +71,7 @@ alias tkill='tmux kill-session -t'
 alias da='direnv allow'
 
 alias pl='gco $DEFAULT_BRANCH && gpl'
-alias hpr='hub pull-request'
+alias hpr='gh pr create --fill'
 alias lmr='lab mr create origin $DEFAULT_BRANCH -s -d'
 alias lis='lab issue create'
 alias dcup='docker-compose up'
@@ -84,7 +85,7 @@ gta() {
 export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
 PATH=$GOBIN:$PATH
-
+PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 PATH=$HOME/.cargo/bin:$PATH
 
 # PS1
@@ -179,7 +180,13 @@ PS1='\[\e[2m\]$(venv_ps1)\[\e[0m\]'$PS1
 # bash completion for sudo
 complete -cf sudo
 
-PATH=$HOME/.bin:$HOME/.local/bin:$PATH
+# additional bash_completion scripts
+if [[ -d $HOME/.bash_completion.d ]]; then
+    for f in $(ls $HOME/.bash_completion.d); do
+        source $HOME/.bash_completion.d/$f
+    done
+fi
+
 export PATH=$(n= IFS=':'; for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done; echo "${n:0: -1}")
 
 [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]] && hash tmux 2>/dev/null && tmux attach || true

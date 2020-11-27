@@ -83,3 +83,19 @@ update_commit_msg_hook() {
         [[ -d $hooks_dir ]] && cp $commit_msg_hook $hooks_dir
     done
 }
+
+ssv() {
+    ssh chuck@$1 \
+    -o ForwardAgent=yes \
+    -L 8080:localhost:80 \
+    -L 4381:localhost:4381 \
+    -L 4382:localhost:4382 \
+    -L 8042:localhost:8042 \
+    -L 8082:localhost:8082 \
+    -L 8083:localhost:8083 \
+    -L 4242:localhost:4242 \
+    -L 11112:localhost:11112 \
+    -L 15672:localhost:15672 \
+    -R 11113:localhost:11113 \
+    -R 11114:localhost:11114
+}
