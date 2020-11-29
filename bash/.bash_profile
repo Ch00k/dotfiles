@@ -2,7 +2,12 @@
 
 export LC_ALL="en_US.UTF-8"
 
-export EDITOR=vim
+if hash nvim 2>/dev/null; then
+    export EDITOR=nvim
+elif hash vim 2>/dev/null; then
+    export EDITOR=vim
+fi
+
 export MANPAGER=less
 export HISTSIZE=
 export HISTFILESIZE=
