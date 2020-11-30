@@ -11,6 +11,7 @@ fi
 export MANPAGER=less
 export HISTSIZE=
 export HISTFILESIZE=
+export HISTCONTROL=ignoreboth
 
 HOMEBREW_PATHS=( \
     opt/coreutils/libexec/gnubin \
