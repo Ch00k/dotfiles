@@ -35,13 +35,6 @@ for path in ${HOMEBREW_PATHS[*]}; do
     fi
 done
 
-# functions
-source $HOME/.bash_profile.d/functions
-platform="$(tr [A-Z] [a-z] <<< `uname`)"
-if [[ -s "$HOME/.bash_profile.d/$platform" ]]; then
-    source "$HOME/.bash_profile.d/$platform"
-fi
-
 if [ ! -n "$SSH_CONNECTION" ]; then
     export GPG_TTY="$(tty)"
     export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
@@ -83,10 +76,6 @@ alias lis='lab issue create'
 alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
-
-gta() {
-    gt -a $1 -m $1 && gps origin $1
-}
 
 export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
@@ -191,6 +180,13 @@ if [[ -d $HOME/.bash_completion.d ]]; then
     for f in $(ls $HOME/.bash_completion.d); do
         source $HOME/.bash_completion.d/$f
     done
+fi
+
+# functions
+source $HOME/.bash_profile.d/functions
+platform="$(tr [A-Z] [a-z] <<< `uname`)"
+if [[ -s "$HOME/.bash_profile.d/$platform" ]]; then
+    source "$HOME/.bash_profile.d/$platform"
 fi
 
 export PATH=$(n= IFS=':'; for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done; echo "${n:0: -1}")

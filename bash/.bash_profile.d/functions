@@ -99,3 +99,7 @@ ssv() {
     -R 11113:localhost:11113 \
     -R 11114:localhost:11114
 }
+
+gta() {
+    git tag -a $1 -m $1 && gps origin $1
+}
