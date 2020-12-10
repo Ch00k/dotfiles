@@ -2,6 +2,10 @@
 
 export LC_ALL="en_US.UTF-8"
 
+if hash bat 2>/dev/null; then
+    alias cat='bat'
+fi
+
 if hash nvim 2>/dev/null; then
     export EDITOR=nvim
 elif hash vim 2>/dev/null; then
@@ -45,7 +49,7 @@ export LPASS_ASKPASS=lp-ap
 
 # Aliases
 if hash exa 2>/dev/null; then
-    alias ll='exa -las type --group-directories-first --colour-scale'
+    alias ll='exa -glas type --group-directories-first --colour-scale --time-style=full-iso'
 else
     alias ll='LC_ALL=C ls -lahG --group-directories-first --color=auto'
 fi
