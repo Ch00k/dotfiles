@@ -49,7 +49,7 @@ export LPASS_ASKPASS=lp-ap
 
 # Aliases
 if hash exa 2>/dev/null; then
-    alias ll='exa -glas type --group-directories-first --colour-scale --time-style=full-iso'
+    alias ll='exa -glas type --group-directories-first --colour-scale --time-style=long-iso'
 else
     alias ll='LC_ALL=C ls -lahG --group-directories-first --color=auto'
 fi
