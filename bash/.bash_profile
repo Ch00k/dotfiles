@@ -88,7 +88,7 @@ PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 PATH=$HOME/.cargo/bin:$PATH
 
 # PS1
-PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[0m\]\j\[\e[32m\]\$\[\e[0m\] "
+PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[32m\]\$\[\e[0m\] "
 
 # direnv
 if hash direnv 2>/dev/null; then
