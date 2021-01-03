@@ -1,5 +1,8 @@
 # vim: filetype=sh
 
+# MacPorts xorg-server
+export DISPLAY=:0
+
 # MacPorts
 PATH="$PATH:/opt/local/bin:/opt/local/sbin"
 
