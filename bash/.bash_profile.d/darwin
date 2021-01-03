@@ -1,5 +1,8 @@
 # vim: filetype=sh
 
+# MacPorts
+PATH="$PATH:/opt/local/bin:/opt/local/sbin"
+
 # Copy file contents
 rem() {
     if [ -z "$1" ]; then
