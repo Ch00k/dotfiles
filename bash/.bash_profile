@@ -30,10 +30,8 @@ HOMEBREW_PATHS=( \
 # Linuxbrew
 [ -d /home/linuxbrew/.linuxbrew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
-BREW_PREFIX=$(brew --prefix)
-
 for path in ${HOMEBREW_PATHS[*]}; do
-    abs_path=$BREW_PREFIX/$path
+    abs_path=$HOMEBREW_PREFIX/$path
     if [[ -d $abs_path ]]; then
         PATH=$abs_path:$PATH
     fi
@@ -109,8 +107,8 @@ fi
 #[ -f /home/linuxbrew/.linuxbrew/etc/profile.d/bash-preexec.sh ] && . /home/linuxbrew/.linuxbrew/etc/profile.d/bash-preexec.sh
 
 # bash completion
-if [[ -r "$BREW_PREFIX/etc/profile.d/bash_completion.sh" ]]; then
-    source "$BREW_PREFIX/etc/profile.d/bash_completion.sh"
+if [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]]; then
+    source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 fi
 
 # SCM Breeze
