@@ -2,7 +2,10 @@
     "coc.preferences.formatOnSaveFiletypes": [ "python", "rust" ],
 
     "rust-analyzer.serverPath": "/home/ay/.bin/rust-analyzer",
+
     "rust-analyzer.inlayHints.chainingHints": false,
+    "rust-analyzer.cargo.loadOutDirsFromCheck": true,
+    "rust-analyzer.procMacro.enable": true,
 
     "python.hideInterpreterName": true,
     "python.formatting.provider": "black",
