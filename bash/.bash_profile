@@ -30,6 +30,12 @@ HOMEBREW_PATHS=( \
 # Linuxbrew
 [ -d /home/linuxbrew/.linuxbrew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
+# Homebrew (/usr/local)
+[ -x /usr/local/bin/brew ] && eval $(/usr/local/bin/brew shellenv)
+
+# Homebrew (/opt/homebrew)
+[ -x /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
+
 for path in ${HOMEBREW_PATHS[*]}; do
     abs_path=$HOMEBREW_PREFIX/$path
     if [[ -d $abs_path ]]; then
@@ -83,7 +89,6 @@ export GOPATH=$HOME/projects/go
 export GOBIN=$GOPATH/bin
 PATH=$GOBIN:$PATH
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
-PATH=$HOME/.cargo/bin:$PATH
 
 # PS1
 PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[32m\]\$\[\e[0m\] "
