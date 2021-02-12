@@ -73,6 +73,7 @@ alias grep='grep --color=auto'
 alias sudo='sudo '
 alias ta='tmux a'
 alias grbo='grb origin/$DEFAULT_BRANCH'
+alias grbu='grb upstream/$DEFAULT_BRANCH'
 
 alias tkill='tmux kill-session -t'
 alias da='direnv allow'
