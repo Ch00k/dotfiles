@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>re.mntw.sshd.plist</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/sbin/sshd</string>
+      <string>-f</string>
+      <string>/Users/ay/.local/etc/ssh/sshd_config</string>
+      <string>-E</string>
+      <string>/Users/ay/.local/var/log/sshd.log</string>
+      <string>-D</string>
+    </array>
+  </dict>
+</plist>

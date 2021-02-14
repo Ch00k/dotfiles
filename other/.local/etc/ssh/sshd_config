@@ -1,0 +1,13 @@
+Port 31322
+ListenAddress 127.0.0.1
+LoginGraceTime 60
+PermitRootLogin no
+PubkeyAuthentication yes
+AuthorizedKeysFile	.ssh/authorized_keys
+HostbasedAuthentication no
+IgnoreRhosts yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+UsePAM no
+PidFile /Users/ay/.local/var/run/sshd.pid
