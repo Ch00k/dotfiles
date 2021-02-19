@@ -21,7 +21,7 @@ HOMEBREW_PATHS=( \
     opt/coreutils/libexec/gnubin \
     opt/findutils/libexec/gnubin \
     opt/gnu-sed/libexec/gnubin \
-    opt/postgresql@9.6/bin \
+    #opt/postgresql@9.6/bin \
     opt/openssl@1.1/bin \
     opt/gnu-sed/bin \
     opt/man-db/libexec/bin \
@@ -86,9 +86,6 @@ alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
 
-export GOPATH=$HOME/projects/go
-export GOBIN=$GOPATH/bin
-PATH=$GOBIN:$PATH
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
 # PS1
