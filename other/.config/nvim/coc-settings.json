@@ -1,8 +1,12 @@
 {
-    "coc.preferences.formatOnSaveFiletypes": [ "python", "rust" ],
+    "coc.preferences.formatOnSaveFiletypes": [ "go", "python", "rust" ],
 
-    "rust-analyzer.serverPath": "/home/ay/.bin/rust-analyzer",
+    "go.goplsPath": "/home/linuxbrew/.linuxbrew/bin/gopls",
+    "go.goplsOptions": {
+        "gofumpt": true
+    },
 
+    "rust-analyzer.serverPath": "/home/linuxbrew/.linuxbrew/bin/rust-analyzer",
     "rust-analyzer.inlayHints.chainingHints": false,
     "rust-analyzer.cargo.loadOutDirsFromCheck": true,
     "rust-analyzer.procMacro.enable": true,
