@@ -163,9 +163,10 @@ if hash fzf 2>/dev/null && [[ -f $HOME/.fzf.bash ]]; then
 fi
 
 # gcloud
-basedir=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+basedir=$HOME/.local/opt/google-cloud-sdk
 path=$basedir/path.bash.inc
 completion=$basedir/completion.bash.inc
+
 if [[ -s $path ]]; then
     source $path
 fi
