@@ -11,11 +11,8 @@
     "rust-analyzer.cargo.loadOutDirsFromCheck": true,
     "rust-analyzer.procMacro.enable": true,
 
-    "python.hideInterpreterName": true,
     "python.formatting.provider": "black",
-    "python.sortImports.path": "isort",
     "python.linting.mypyEnabled": true,
     "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": false
-
+    "pyright.organizeimports.provider": "isort"
 }
