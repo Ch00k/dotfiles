@@ -6,7 +6,6 @@ Plug 'mike-hearn/base16-vim-lightline'
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'vim-python/python-syntax', { 'for': 'python' }
 Plug 'neoclide/coc.nvim', {'branch': 'release' }
 Plug 'qpkorr/vim-bufkill'
 Plug 'mileszs/ack.vim'
@@ -45,6 +44,8 @@ set clipboard=
 set updatetime=300
 set noshowmode
 "set re=1
+
+let g:python3_host_prog = '~/.pyenv/versions/3.7.9/bin/python'
 
 if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
@@ -142,8 +143,9 @@ xnoremap > >gv
 let tw_blacklist = ['js']
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\s\+$//e
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\($\n\)\+\%$//e
-autocmd BufWrite *.go :GoDiagnostics
-autocmd BufWrite *.py :CocCommand python.sortImports
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+"autocmd BufWrite *.go :GoDiagnostics
+autocmd BufWrite *.py :CocCommand editor.action.organizeImport
 autocmd BufLeave,FocusLost,VimResized * silent! wall
 autocmd BufRead,BufNewFile .envrc set filetype=sh
 autocmd BufRead,BufNewFile requirements* set filetype=conf
