@@ -156,7 +156,7 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  use_thin_strokes: true
+  use_thin_strokes: false
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
@@ -339,7 +339,7 @@ background_opacity: 1.0
 #mouse_bindings:
 #  - { mouse: Middle, action: PasteSelection }
 
-mouse:
+#mouse:
   # Click settings
   #
   # The `double_click` and `triple_click` settings control the time
@@ -351,7 +351,7 @@ mouse:
   # If this is `true`, the cursor is temporarily hidden when typing.
   #hide_when_typing: false
 
-  url:
+  #url:
     # URL launcher
     #
     # This program is executed when clicking on a text which is recognized as a URL.
@@ -363,7 +363,7 @@ mouse:
     #   - (macOS) open
     #   - (Linux) xdg-open
     #   - (Windows) explorer
-    launcher: open
+    #launcher: open
 
     # URL modifiers
     #
