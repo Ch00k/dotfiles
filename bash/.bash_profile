@@ -101,7 +101,7 @@ else
     ps1_color=32  # green
 fi
 
-PS1="\[\e[${ps1_color}m\]\u@\h \[\e[34m\]\w \[\e[32m\]\$\[\e[0m\] "
+PS1="\[\e[${ps1_color}m\] \[\e[34m\]\w \[\e[32m\]\$\[\e[0m\] "
 
 # direnv
 if hash direnv 2>/dev/null; then
@@ -187,26 +187,38 @@ if [[ -s $completion ]]; then
 fi
 
 # virtualenv PS1
-PS1='\[\e[2m\]$(venv_ps1)\[\e[0m\]'$PS1
-#PS1='$(venv_ps1)'$PS1
+venv_ps1_custom ()
+{
+    if [ -n "$VIRTUAL_ENV" ]; then
+        echo "[p]"
+    fi
+}
+
+PS1='\[\e[2m\]$(venv_ps1_custom)\[\e[0m\]'$PS1
 
 # k8s PS1
 if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then
-    KUBE_PS1_PREFIX=""
-    KUBE_PS1_SUFFIX=" "
-    KUBE_PS1_SYMBOL_ENABLE=false
-
     source "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh"
+
+    KUBE_PS1_PREFIX="["
+    KUBE_PS1_SUFFIX="]"
+    KUBE_PS1_SYMBOL_ENABLE=false
 
     function kube_ps1_dynamically_colored() {
         if [[ "${KUBE_PS1_CONTEXT}" = *prod* ]]; then
+            KUBE_PS1_PREFIX_COLOR=red
+            KUBE_PS1_SUFFIX_COLOR=red
             KUBE_PS1_CTX_COLOR=red
             KUBE_PS1_NS_COLOR=red
-            export ENV=qa
+            KUBE_PS1_DIVIDER="$(_kube_ps1_color_fg red):${KUBE_PS1_RESET_COLOR}"
+            export ENV=prod
         else
+            KUBE_PS1_PREFIX_COLOR=blue
+            KUBE_PS1_SUFFIX_COLOR=blue
             KUBE_PS1_CTX_COLOR=blue
             KUBE_PS1_NS_COLOR=blue
-            export ENV=prod
+            KUBE_PS1_DIVIDER="$(_kube_ps1_color_fg blue):${KUBE_PS1_RESET_COLOR}"
+            export ENV=qa
         fi
         kube_ps1
     }
