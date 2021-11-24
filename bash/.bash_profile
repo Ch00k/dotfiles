@@ -101,7 +101,7 @@ else
     ps1_color=32  # green
 fi
 
-PS1="\[\e[${ps1_color}m\] \[\e[34m\]\w \[\e[32m\]\$\[\e[0m\] "
+PS1="\[\e[${ps1_color}m\] \[\e[34m\]\w \[\e[${ps1_color}m\]\$\[\e[0m\] "
 
 # direnv
 if hash direnv 2>/dev/null; then
