@@ -2,6 +2,8 @@
 
 export LC_ALL="en_US.UTF-8"
 
+PLATFORM="$(tr [A-Z] [a-z] <<< `uname`)"
+
 if hash bat 2>/dev/null; then
     alias cat='bat'
 fi
@@ -93,7 +95,13 @@ alias kn='kubens'
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
 # PS1
-PS1="\[\e[32m\]\u@\h \[\e[34m\]\w \[\e[32m\]\$\[\e[0m\] "
+if [[ "${PLATFORM}" == "darwin" ]]; then
+    ps1_color=33  # yellow
+else
+    ps1_color=32  # green
+fi
+
+PS1="\[\e[${ps1_color}m\]\u@\h \[\e[34m\]\w \[\e[32m\]\$\[\e[0m\] "
 
 # direnv
 if hash direnv 2>/dev/null; then
@@ -219,9 +227,8 @@ fi
 
 # functions
 source $HOME/.bash_profile.d/functions
-platform="$(tr [A-Z] [a-z] <<< `uname`)"
-if [[ -s "$HOME/.bash_profile.d/$platform" ]]; then
-    source "$HOME/.bash_profile.d/$platform"
+if [[ -s "$HOME/.bash_profile.d/$PLATFORM" ]]; then
+    source "$HOME/.bash_profile.d/$PLATFORM"
 fi
 
 export PATH=$(n= IFS=':'; for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done; echo "${n:0: -1}")
