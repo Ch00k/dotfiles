@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-PATH=/opt/local/bin:/usr/local/bin:$PATH pinentry-mac
