@@ -79,12 +79,16 @@ alias tkill='tmux kill-session -t'
 alias da='direnv allow'
 
 alias pl='gco $DEFAULT_BRANCH && gpl'
-alias hpr='gh pr create --fill'
+alias gprc='gh pr create --fill'
+alias gprl='gh pr list'
 alias lmr='lab mr create origin $DEFAULT_BRANCH -s -d'
 alias lis='lab issue create'
 alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
+alias kc='kubectx'
+alias kn='kubens'
+
 
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
@@ -177,6 +181,31 @@ fi
 # virtualenv PS1
 PS1='\[\e[2m\]$(venv_ps1)\[\e[0m\]'$PS1
 #PS1='$(venv_ps1)'$PS1
+
+# k8s PS1
+if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then
+    KUBE_PS1_PREFIX=""
+    KUBE_PS1_SUFFIX=" "
+    KUBE_PS1_SYMBOL_ENABLE=false
+
+    source "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh"
+
+    function kube_ps1_dynamically_colored() {
+        if [[ "${KUBE_PS1_CONTEXT}" = *prod* ]]; then
+            KUBE_PS1_CTX_COLOR=red
+            KUBE_PS1_NS_COLOR=red
+            export ENV=qa
+        else
+            KUBE_PS1_CTX_COLOR=blue
+            KUBE_PS1_NS_COLOR=blue
+            export ENV=prod
+        fi
+        kube_ps1
+    }
+
+    PS1='$(kube_ps1_dynamically_colored)'$PS1
+fi
+
 
 # bash completion for sudo
 complete -cf sudo
