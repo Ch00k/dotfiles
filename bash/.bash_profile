@@ -76,6 +76,7 @@ alias sudo='sudo '
 alias ta='tmux a'
 alias grbo='grb origin/$DEFAULT_BRANCH'
 alias grbu='grb upstream/$DEFAULT_BRANCH'
+alias gcmn='git commit --amend --no-edit'
 
 alias tkill='tmux kill-session -t'
 alias da='direnv allow'
@@ -90,6 +91,13 @@ alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
 alias kc='kubectx'
 alias kn='kubens'
+
+alias otp='PASSWORD_STORE_DIR=$HOME/.otp-store pass'
+
+if hash kubecolor 2>/dev/null; then
+    alias kubectl='kubecolor'
+fi
+alias k='kubectl'
 
 
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
@@ -125,6 +133,15 @@ fi
 if [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]]; then
     source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 fi
+
+if [[ -d $HOME/.bash_completion.d ]]; then
+    for f in $(ls $HOME/.bash_completion.d); do
+        source $HOME/.bash_completion.d/$f
+    done
+fi
+
+complete -cf sudo
+complete -F __start_kubectl k
 
 # SCM Breeze
 if [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]]; then
@@ -226,15 +243,9 @@ if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then
     PS1='$(kube_ps1_dynamically_colored)'$PS1
 fi
 
-
-# bash completion for sudo
-complete -cf sudo
-
-# additional bash_completion scripts
-if [[ -d $HOME/.bash_completion.d ]]; then
-    for f in $(ls $HOME/.bash_completion.d); do
-        source $HOME/.bash_completion.d/$f
-    done
+# krew
+if [[ -d $HOME/.krew/bin ]]; then
+    PATH=$HOME/.krew/bin:$PATH
 fi
 
 # functions

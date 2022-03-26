@@ -119,7 +119,6 @@ nnoremap <leader>t o__import__("pdb").set_trace()<Esc>
 nnoremap <leader>k oprintln!("{:#?}", );<Esc>hi
 nnoremap <leader>o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR><CR>
 nnoremap <leader>m :CtrlPBuffer<CR>
-nnoremap <leader>ln :set number!<CR>
 nnoremap <BS> :noh<CR>
 nnoremap * *``
 nnoremap <silent> <leader>f :Format<CR>
@@ -149,6 +148,7 @@ autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\($\n\)\+\%$//e
 "autocmd BufWritePre *.go CocCommand editor.action.organizeImport
 "autocmd BufWrite *.py :CocCommand editor.action.organizeImport
 au BufWritePre *.py :silent call CocAction('runCommand', 'editor.action.organizeImport')
+au BufWritePre *.py :silent call CocAction('format')
 autocmd BufLeave,FocusLost,VimResized * silent! wall
 autocmd BufRead,BufNewFile .envrc set filetype=sh
 autocmd BufRead,BufNewFile requirements* set filetype=conf
