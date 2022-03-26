@@ -129,8 +129,12 @@ provision_otp() {
         account_name="${arr[1]}"
         site=$(basename $otp_path)
 
+        echo "Provisioning $site:$account_name"
+
         if ! ykman oath accounts list | grep $site:$account_name; then
             ykman oath accounts add $site:$account_name $secret
+        else
+            echo "$site:$account_name already exists"
         fi
     done
 }
