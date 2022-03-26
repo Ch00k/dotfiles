@@ -70,6 +70,9 @@ fi
 
 DEFAULT_BRANCH=master
 
+OTP_STORE_DIR_NAME=.otp-store
+OTP_STORE_DIR_PATH=$HOME/$OTP_STORE_DIR_NAME
+
 alias sbp='source $HOME/.bash_profile'
 alias grep='grep --color=auto'
 alias sudo='sudo '
@@ -91,8 +94,6 @@ alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
 alias kc='kubectx'
 alias kn='kubens'
-
-alias otp='PASSWORD_STORE_DIR=$HOME/.otp-store pass'
 
 if hash kubecolor 2>/dev/null; then
     alias kubectl='kubecolor'

@@ -110,3 +110,27 @@ transfer(){
 gta() {
     git tag -a $1 -m $1 && gps origin $1
 }
+
+otp() {
+    PASSWORD_STORE_DIR=$OTP_STORE_DIR_PATH pass $@
+}
+
+provision_otp() {
+    if ! ykman info; then
+        return
+    fi
+
+    for path in $(find $OTP_STORE_DIR_PATH -name *.gpg); do
+        otp_path=${path#$OTP_STORE_DIR_PATH/}  # remove prefix
+        otp_path=${otp_path%.gpg}  # remove suffix
+
+        arr=( $(otp show $otp_path 2>/dev/null) )
+        secret="${arr[0]}"
+        account_name="${arr[1]}"
+        site=$(basename $otp_path)
+
+        if ! ykman oath accounts list | grep $site:$account_name; then
+            ykman oath accounts add $site:$account_name $secret
+        fi
+    done
+}
