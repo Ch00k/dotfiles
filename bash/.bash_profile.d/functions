@@ -120,18 +120,21 @@ provision_otp() {
         return
     fi
 
+    accounts=$(ykman oath accounts list)
+
     for path in $(find $OTP_STORE_DIR_PATH -name *.gpg); do
         otp_path=${path#$OTP_STORE_DIR_PATH/}  # remove prefix
         otp_path=${otp_path%.gpg}  # remove suffix
 
+        site=$(basename $otp_path)
+
         arr=( $(otp show $otp_path 2>/dev/null) )
         secret="${arr[0]}"
         account_name="${arr[1]}"
-        site=$(basename $otp_path)
 
         echo "Provisioning $site:$account_name"
 
-        if ! ykman oath accounts list | grep $site:$account_name; then
+        if ! echo "$accounts" | grep $site:$account_name; then
             ykman oath accounts add $site:$account_name $secret
         else
             echo "$site:$account_name already exists"
