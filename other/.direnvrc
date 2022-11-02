@@ -7,7 +7,7 @@ export_alias() {
   local target="$alias_dir/$name"
   mkdir -p "$alias_dir"
   PATH_add "$alias_dir"
-  echo "#!/usr/bin/env -S bash -e" > "$target"
+  echo "#!/usr/bin/env -S bash -euo pipefail" > "$target"
   echo "$@" >> "$target"
   chmod +x "$target"
 }
@@ -20,7 +20,7 @@ export_function() {
   PATH_add "$alias_dir"
   local target="$alias_dir/$name"
   if declare -f "$name" >/dev/null; then
-    echo "#!/usr/bin/env bash" > "$target"
+    echo "#!/usr/bin/env -S bash -euo pipefail" > "$target"
     declare -f "$name" >> "$target" 2>/dev/null
     # Notice that we add shell variables to the function trigger.
     echo "$name \$*" >> "$target"

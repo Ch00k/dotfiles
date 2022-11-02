@@ -6,7 +6,7 @@
 
 [pull]
     default = current
-	rebase = true
+    rebase = true
 
 [push]
     default = current
@@ -28,6 +28,7 @@
     recommit = commit --amend --no-edit --reset-author
 
 [init]
+    defaultBranch = main
     templatedir = ~/.git_templates
 
 [color "diff"]

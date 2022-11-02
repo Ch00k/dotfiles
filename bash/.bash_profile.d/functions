@@ -141,3 +141,9 @@ provision_otp() {
         fi
     done
 }
+
+find_processes() {
+    for p in $(pgrep $1); do
+        echo -e "$p\t $(ps -o command= $p)\t \e[33m$(pwdx $p | awk -F': ' '{print $2}')\e[0m"
+    done
+}

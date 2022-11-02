@@ -44,13 +44,11 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*/__pycache__/*
 set clipboard=
 set updatetime=300
 set noshowmode
-"set re=1
+set mouse=
 
-let g:python3_host_prog = '~/.pyenv/versions/3.7.9/bin/python'
-
-if filereadable(expand("~/.vimrc_background"))
-    let base16colorspace=256
-    source ~/.vimrc_background
+if !exists('g:colors_name') || g:colors_name != 'base16-flat'
+  let base16colorspace=256
+  colorscheme base16-flat
 endif
 
 let g:lightline = {
@@ -72,13 +70,17 @@ endfunction
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 let g:tmux_navigator_disable_when_zoomed = 1
@@ -92,7 +94,7 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --nogroup --hidden -g ""'
 let g:NERDTreeWinSize = 33
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
-let NERDTreeIgnore = ['\.pyc$', '__pycache__$', '.git$', '.tox$', '\.egg-info$', '.DS_Store$', '.cache$', 'direnv', '.envrc', 'python-version']
+let NERDTreeIgnore = ['\.pyc$', '__pycache__$', '.git$', '.tox$', '\.egg-info$', '.DS_Store$', '.cache$', 'direnv', '.envrc', 'python-version', '.vim', '.mypy_cache_coc$']
 let NERDTreeMinimalUI = 1
 let NERDTreeShowHidden = 1
 

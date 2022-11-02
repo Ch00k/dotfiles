@@ -23,8 +23,6 @@ HOMEBREW_PATHS=( \
     opt/coreutils/libexec/gnubin \
     opt/findutils/libexec/gnubin \
     opt/gnu-sed/libexec/gnubin \
-    #opt/postgresql@9.6/bin \
-    opt/openssl@1.1/bin \
     opt/gnu-sed/bin \
     opt/man-db/libexec/bin \
 )
@@ -52,6 +50,9 @@ if [ ! -n "$SSH_CONNECTION" ]; then
 fi
 
 export LPASS_ASKPASS=lp-ap
+
+export AWS_VAULT_BACKEND=pass
+export AWS_VAULT_PASS_PREFIX=aws-vault-credentials
 
 # Aliases
 if hash exa 2>/dev/null; then
@@ -87,6 +88,8 @@ alias da='direnv allow'
 alias pl='gco $DEFAULT_BRANCH && gpl'
 alias gprc='gh pr create --fill'
 alias gprl='gh pr list'
+alias gpru='gh pr view | grep url | awk -F "url:" "{print \$2}" | xargs'
+alias gg='gcmn && gpsf'
 alias lmr='lab mr create origin $DEFAULT_BRANCH -s -d'
 alias lis='lab issue create'
 alias dcup='docker-compose up'
@@ -94,11 +97,13 @@ alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
 alias kc='kubectx'
 alias kn='kubens'
+alias watch='watch '
 
 if hash kubecolor 2>/dev/null; then
-    alias kubectl='kubecolor'
+    alias k='kubecolor'
+else
+    alias k='kubectl'
 fi
-alias k='kubectl'
 
 
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
@@ -127,9 +132,6 @@ if hash jenv 2>/dev/null; then
     eval "$(jenv init -)"
 fi
 
-# preexec
-#[ -f /home/linuxbrew/.linuxbrew/etc/profile.d/bash-preexec.sh ] && . /home/linuxbrew/.linuxbrew/etc/profile.d/bash-preexec.sh
-
 # bash completion
 if [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]]; then
     source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
@@ -142,7 +144,7 @@ if [[ -d $HOME/.bash_completion.d ]]; then
 fi
 
 complete -cf sudo
-complete -F __start_kubectl k
+complete -o default -F __start_kubectl k
 
 # SCM Breeze
 if [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]]; then
@@ -152,7 +154,7 @@ fi
 # base16-shell
 BASE16_SHELL=$HOME/.base16-shell
 if [[ -n "$PS1" ]] && [[ -s $BASE16_SHELL/profile_helper.sh ]]; then
-    eval "$($BASE16_SHELL/profile_helper.sh)"
+    source "$BASE16_SHELL/profile_helper.sh"
 fi
 
 # Git
@@ -242,6 +244,8 @@ if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then
     }
 
     PS1='$(kube_ps1_dynamically_colored)'$PS1
+
+    export KUBE_PS1_ENABLED=off
 fi
 
 # krew
