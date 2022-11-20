@@ -1,7 +1,10 @@
-hs.loadSpoon("ReloadConfiguration")
-spoon.ReloadConfiguration:start()
+logger = hs.logger.new("init", "info")
 
 local isLaptop = hs.battery.name() ~= nil
+local caffeinate = "/usr/bin/caffeinate"
+local wifiInterface = "en0"
+local vpn = "/usr/local/bin/mullvad"
+
 local soco = os.getenv("HOME") .. "/.local/bin/soco"
 local speaker = 'Office'
 local volumeLow = '5'
@@ -25,32 +28,88 @@ function pause()
     hs.task.new(soco, nil, _, {speaker, 'pause'}):start()
 end
 
+function runCaffeinate()
+    hs.task.new(caffeinate, nil, _, {}):start()
+end
+
+function wifiUp()
+    logger.i("Enabling WiFi power")
+    hs.wifi.setPower(true)
+end
+
+function wifiDown()
+    logger.i("Disabling WiFi power")
+    hs.wifi.setPower(false)
+end
+
+function wifiStatus()
+    wifiPower = hs.wifi.interfaceDetails(wifiInterface).power
+
+    if wifiPower then
+        status = "enabled"
+    else
+        status = "disabled"
+    end
+
+    logger.i("WiFi power " .. status)
+end
+
+function vpnConnect()
+    logger.i("Connecting VPN")
+    hs.task.new(vpn, nil, _, {"connect"}):start()
+end
+
+function vpnDisconnect()
+    logger.i("Disconnecting VPN")
+    hs.task.new(vpn, nil, _, {"disconnect"}):start()
+end
+
 function sleepWatch(eventType)
     if eventType == hs.caffeinate.watcher.systemWillSleep then
+        logger.i("Will sleep")
+
+        --vpnDisconnect()
+
         if isLaptop then
-            hs.wifi.setPower(false)
+            wifiDown()
         end
 
         if not isLaptop then
             pause()
         end
     elseif eventType == hs.caffeinate.watcher.systemDidWake then
+        logger.i("Woke up")
+
         if isLaptop then
-            hs.wifi.setPower(true)
+            wifiStatus()
+            wifiUp()
         end
+
+        --vpnConnect()
 
         if not isLaptop then
             play()
         end
     elseif eventType == hs.caffeinate.watcher.screensDidLock then
-        volumeDown()
+        logger.i("Screen locked")
+
+        if not isLaptop then
+            volumeDown()
+        end
     elseif eventType == hs.caffeinate.watcher.screensDidUnlock then
-        volumeUp()
+        logger.i("Screen unlocked")
+
+        if not isLaptop then
+            volumeUp()
+        end
     end
 end
 
+runCaffeinate()
 hs.caffeinate.watcher.new(sleepWatch):start()
 
-zoom_meeting = hs.window.filter.new(false):setAppFilter('zoom.us', {allowTitles={'Zoom Meeting', 'zoom share'}})
-zoom_meeting:subscribe(hs.window.filter.windowCreated, volumeDown)
-zoom_meeting:subscribe(hs.window.filter.windowDestroyed, volumeUp)
+if not isLaptop then
+    zoom_meeting = hs.window.filter.new(false):setAppFilter('zoom.us', {allowTitles={'Zoom Meeting', 'zoom share'}})
+    zoom_meeting:subscribe(hs.window.filter.windowCreated, volumeDown)
+    zoom_meeting:subscribe(hs.window.filter.windowDestroyed, volumeUp)
+end
