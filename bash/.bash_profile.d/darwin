@@ -14,3 +14,27 @@ rem() {
         cat $1 | pbcopy
     fi
 }
+
+# https://github.com/tmux/tmux/issues/2262
+install_tmux_256_color_terminfo() {
+    if [ -z "$TMUX" ]; then
+        return
+    fi
+
+    if infocmp >/dev/null 2>&1; then
+        return
+    fi
+
+    if [ -z "$HOMEBREW_PREFIX" ]; then
+        return
+    fi
+
+    if ! $(brew --prefix ncurses)/bin/infocm >/dev/null 2>&1; then
+        return
+    fi
+
+    $(brew --prefix ncurses)/bin/infocmp -x tmux-256color > /tmp/tmux-256color
+    tic -x /tmp/tmux-256color
+}
+
+install_tmux_256_color_terminfo

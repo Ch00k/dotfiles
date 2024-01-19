@@ -1,0 +1,38 @@
+live_config_reload = true
+
+[selection]
+save_to_clipboard = true
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[font]
+size = 12.0
+
+[font.normal]
+family = "Iosevka Fixed"
+style = "Regular"
+
+[font.bold]
+family = "Iosevka Fixed"
+style = "Regular"
+
+[font.italic]
+family = "Iosevka Fixed"
+style = "Italic"
+
+[font.offset]
+y = -4
+
+[scrolling]
+history = 0
+
+[window]
+startup_mode = "SimpleFullscreen"
+
+[window.padding]
+x = 2
+y = 2
+
+[mouse]
+hide_when_typing = true
