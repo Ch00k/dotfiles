@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-export LC_ALL="en_US.UTF-8"
+export LC_ALL=en_US.UTF-8
+export TZ="Europe/Amsterdam"
 
 PLATFORM="$(tr [A-Z] [a-z] <<< `uname`)"
 
@@ -25,6 +26,7 @@ HOMEBREW_PATHS=( \
     opt/gnu-sed/libexec/gnubin \
     opt/gnu-sed/bin \
     opt/man-db/libexec/bin \
+    opt/mysql-client/bin
 )
 
 # Linuxbrew
@@ -58,7 +60,8 @@ export AWS_VAULT_PASS_PREFIX=aws-vault-credentials
 if hash exa 2>/dev/null; then
     alias ll='exa -glas type --group-directories-first --colour-scale --time-style=long-iso'
 else
-    alias ll='LC_ALL=C ls -lahG --group-directories-first --color=auto'
+    #alias ll='LC_ALL=C ls -lahG --group-directories-first --color=auto'
+    alias ll='ls -lahG --group-directories-first --color=auto'
 fi
 
 if hash nvim 2>/dev/null; then
@@ -89,6 +92,7 @@ alias pl='gco $DEFAULT_BRANCH && gpl'
 alias gprc='gh pr create --fill'
 alias gprl='gh pr list'
 alias gpru='gh pr view | grep url | awk -F "url:" "{print \$2}" | xargs'
+alias gprm='gh pr merge --squash'
 alias gg='gcmn && gpsf'
 alias lmr='lab mr create origin $DEFAULT_BRANCH -s -d'
 alias lis='lab issue create'
@@ -97,13 +101,20 @@ alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
 alias kc='kubectx'
 alias kn='kubens'
+alias tl='stern -s 1s'
 alias watch='watch '
+alias pgps='pass git push'
+alias pgpl='pass git pull'
 
 if hash kubecolor 2>/dev/null; then
     alias k='kubecolor'
 else
     alias k='kubectl'
 fi
+
+alias kg='k grep'
+alias kp='k get po'
+alias krrd='k rollout restart deployment'
 
 
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
@@ -188,6 +199,16 @@ if [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
 fi
 # N/A: version "N/A -> N/A" is not yet installed -> run `nvm alias default system`
 
+# sdkman
+if [[ -d "$HOMEBREW_PREFIX/opt/sdkman-cli/libexec" ]]; then
+    export SDKMAN_DIR=$HOMEBREW_PREFIX/opt/sdkman-cli/libexec
+
+    if [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]]; then
+        source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+    fi
+fi
+
+
 
 # fzf
 if hash fzf 2>/dev/null && [[ -f $HOME/.fzf.bash ]]; then
@@ -207,14 +228,44 @@ if [[ -s $completion ]]; then
 fi
 
 # virtualenv PS1
-venv_ps1_custom ()
-{
-    if [ -n "$VIRTUAL_ENV" ]; then
+venv_ps1_custom() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
         echo "[p]"
     fi
 }
 
-PS1='\[\e[2m\]$(venv_ps1_custom)\[\e[0m\]'$PS1
+# sdkman PS1
+sdkman_ps1_custom() {
+    ps1=""
+
+    if [[ -n "$JAVA_HOME" ]]; then
+        java_version=$(basename $JAVA_HOME)
+        if [[ -n "$java_version" ]] && [[ "$java_version" != "current" ]]; then
+            ps1+="j$java_version"
+        fi
+    fi
+
+    if [[ -n "$KOTLIN_HOME" ]]; then
+        kotlin_version=$(basename $KOTLIN_HOME)
+        if [[ -n "$kotlin_version" ]] && [[ "$kotlin_version" != "current" ]]; then
+            ps1+="|k$kotlin_version"
+        fi
+    fi
+
+    if [[ -n "$GRADLE_HOME" ]]; then
+        gradle_version=$(basename $GRADLE_HOME)
+        if [[ -n "$gradle_version" ]] && [[ "$gradle_version" != "current" ]]; then
+            ps1+="|g$gradle_version"
+        fi
+    fi
+
+    if [[ -n "$ps1" ]]; then
+        echo "[$ps1]"
+    fi
+}
+
+
+PS1='\[\e[2m\]$(venv_ps1_custom)$(sdkman_ps1_custom)\[\e[0m\]'$PS1
 
 # k8s PS1
 if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then

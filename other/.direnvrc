@@ -52,4 +52,20 @@ use_node() {
   export NODE_PATH=./node_modules
 }
 
+# https://github.com/direnv/direnv/issues/420
+use_sdk() {
+  if [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]]; then
+      source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+  fi
+  SDKMAN_OFFLINE_MODE=true
+
+  while (( "$#" >= 2 )); do
+    local candidate=$1
+    local candidate_version=$2
+    sdk use $candidate $candidate_version > /dev/null
+
+    shift 2
+  done
+}
+
 source_up

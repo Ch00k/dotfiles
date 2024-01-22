@@ -8,7 +8,7 @@ function join_by {
     printf "%s" "${@/#/$d}"
 }
 
-PROJECT_IDS=(ES)
+PROJECT_IDS=(ES FLTSVC)
 GREP_PROJECT_IDS=$(join_by '-\|' ${PROJECT_IDS[*]})-  # append a "-" to the last item
 SED_PROJECT_IDS="\($GREP_PROJECT_IDS\)"
 

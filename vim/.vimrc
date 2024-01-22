@@ -14,6 +14,9 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-sensible'
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'hashivim/vim-terraform'
+Plug 'bronson/vim-crosshairs'
+Plug 'udalov/kotlin-vim'
+Plug 'dense-analysis/ale'
 
 call plug#end()
 
@@ -36,6 +39,7 @@ set wrap
 set fillchars=""
 set hidden
 set cursorline
+set cursorcolumn
 set lazyredraw
 set ttyfast
 set timeoutlen=1000
@@ -100,17 +104,21 @@ let NERDTreeShowHidden = 1
 
 let mapleader = ","
 nnoremap <leader>nt :NERDTreeToggle<cr>
+nnoremap <leader>jf :%!jq .<cr>
 nnoremap <leader>x :BD<CR>
 nnoremap <leader>l :set wrap!<CR>
 nnoremap <leader>j :set number!<CR>
 nnoremap <leader>w ggVGgq<C-o><C-o>
 nnoremap <leader>' *:Ack!<C-r><C-w><CR>
 nnoremap <leader>; :Ack!<space>
+nnoremap <leader>\ :Ack! --python --ignore tests --ignore migrations<space>
+nnoremap <leader>/ *:Ack! --python --ignore tests --ignore migrations<space><C-r><C-w><CR>
 nnoremap <leader>s :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>z :qa<CR>
 nnoremap <leader>a :wq<CR>
 nnoremap <leader>. :%bdelete<CR>
+nnoremap <leader>b :CocRestart<CR><CR>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
 vnoremap <leader>y "+y
@@ -123,12 +131,15 @@ nnoremap <leader>o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<
 nnoremap <leader>m :CtrlPBuffer<CR>
 nnoremap <BS> :noh<CR>
 nnoremap * *``
-nnoremap <silent> <leader>f :Format<CR>
+"nnoremap <silent> <leader>f :Format<CR>
+
 
 nmap <leader>r <Plug>(coc-rename)
 nmap <silent> <leader>d <Plug>(coc-definition)
 nmap <silent> <leader>9 <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>0 <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>fi <Plug>(coc-codeaction-cursor)
+nmap <silent> <leader>fo <Plug>(coc-format)
 
 map <up> <nop>
 map <down> <nop>
@@ -143,14 +154,21 @@ imap § <Esc>
 xnoremap < <gv
 xnoremap > >gv
 
+let g:ale_disable_lsp = 1
+let g:ale_use_neovim_diagnostics_api = 1
+let g:ale_linters_explicit = 1
+"let g:ale_virtualtext_cursor = 'current'
+let g:ale_virtualtext_cursor = 'disabled'
+
 let tw_blacklist = ['js']
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\s\+$//e
 autocmd BufWritePre * if index(tw_blacklist, &ft) < 0 | :%s/\($\n\)\+\%$//e
 "autocmd BufWrite *.go :GoDiagnostics
 "autocmd BufWritePre *.go CocCommand editor.action.organizeImport
 "autocmd BufWrite *.py :CocCommand editor.action.organizeImport
-au BufWritePre *.py :silent call CocAction('runCommand', 'editor.action.organizeImport')
-au BufWritePre *.py :silent call CocAction('format')
+au BufWritePre *.py* :silent call CocAction('runCommand', 'editor.action.organizeImport')
+au BufWritePre *.py* :silent call CocAction('format')
+au BufWritePre *.kt* :ALEFix
 autocmd BufLeave,FocusLost,VimResized * silent! wall
 autocmd BufRead,BufNewFile .envrc set filetype=sh
 autocmd BufRead,BufNewFile requirements* set filetype=conf

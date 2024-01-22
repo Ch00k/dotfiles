@@ -111,8 +111,14 @@ gta() {
     git tag -a $1 -m $1 && gps origin $1
 }
 
+pass() {
+    unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL GIT_COMMITTER_NAME GIT_COMMITTER_EMAIL
+    $HOMEBREW_PREFIX/bin/pass $@
+}
+
 otp() {
-    PASSWORD_STORE_DIR=$OTP_STORE_DIR_PATH pass $@
+    unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL GIT_COMMITTER_NAME GIT_COMMITTER_EMAIL
+    PASSWORD_STORE_DIR=$OTP_STORE_DIR_PATH $HOMEBREW_PREFIX/bin/pass $@
 }
 
 provision_otp() {
@@ -146,4 +152,13 @@ find_processes() {
     for p in $(pgrep $1); do
         echo -e "$p\t $(ps -o command= $p)\t \e[33m$(pwdx $p | awk -F': ' '{print $2}')\e[0m"
     done
+}
+
+wp() {
+    if [ $# -eq 0 ]; then
+        watch "kubectl get po"
+    else
+        watch "kubectl get po | grep $1"
+    fi
+
 }

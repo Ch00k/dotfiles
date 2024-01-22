@@ -1,5 +1,9 @@
 # vim: filetype=sh
 
+# https://access.redhat.com/solutions/3257651
+# https://github.com/containers/podman/issues/9727
+export DBUS_SESSION_BUS_ADDRESS=systemd:
+
 # SSH agent in tmux
 if [ -n "$SSH_CONNECTION" ] && [ ! -n "$TMUX" ]; then
     ln -sf $(find /tmp -maxdepth 2 -type s -name "agent*" -user $USER -printf '%T@ %p\n' 2>/dev/null |sort -n|tail -1|cut -d' ' -f2) ~/.ssh/.auth_sock

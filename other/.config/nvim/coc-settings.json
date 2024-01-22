@@ -1,7 +1,7 @@
 {
     "inlayHint": false,
     "suggest.noselect": true,
-    "coc.preferences.formatOnSaveFiletypes": [ "go", "rust" ],
+    "coc.preferences.formatOnSaveFiletypes": [ "go", "rust", "kotlin", "sql" ],
 
     "go.goplsPath": "/home/linuxbrew/.linuxbrew/bin/gopls",
     "go.goplsOptions": {
@@ -13,10 +13,25 @@
     "rust-analyzer.cargo.loadOutDirsFromCheck": true,
     "rust-analyzer.procMacro.enable": true,
 
-    "python.analysis.typeCheckingMode": "off",
+    "python.analysis.typeCheckingMode": "basic",
     "pyright.disableDiagnostics": false,
     "pyright.organizeimports.provider": "isort",
     "python.linting.mypyEnabled": false,
     "python.formatting.provider": "black",
-    "python.linting.flake8Enabled": true
+    "python.linting.flake8Enabled": true,
+
+    "sql.database": "mysql",
+    "sql.formatOptions": {
+        "language": "mysql",
+        "dialect": "mysql",
+        "keywordCase": "upper",
+        "tabWidth": 4
+    },
+
+    "languageserver": {
+      "kotlin": {
+        "command": "/home/ay/projects/personal/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
+        "filetypes": ["kotlin"]
+      }
+    }
 }
