@@ -38,3 +38,5 @@ install_tmux_256_color_terminfo() {
 }
 
 install_tmux_256_color_terminfo
+
+[[ -L $HOME/iCloud ]] || ln -s $HOME/Library/Mobile\ Documents/com~apple~CloudDocs $HOME/iCloud
