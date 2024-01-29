@@ -72,7 +72,7 @@ else
     alias vi='vim'
 fi
 
-DEFAULT_BRANCH=master
+DEFAULT_BRANCH=main
 
 OTP_STORE_DIR_NAME=.otp-store
 OTP_STORE_DIR_PATH=$HOME/$OTP_STORE_DIR_NAME
