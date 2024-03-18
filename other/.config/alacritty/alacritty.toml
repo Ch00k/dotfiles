@@ -33,6 +33,3 @@ startup_mode = "SimpleFullscreen"
 [window.padding]
 x = 2
 y = 2
-
-[mouse]
-hide_when_typing = true
