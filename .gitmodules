@@ -10,3 +10,6 @@
 [submodule "other/.base16-fzf"]
 	path = other/.base16-fzf
 	url = git@github.com:nicodebo/base16-fzf.git
+[submodule "other/.base16-shell"]
+	path = other/.base16-shell
+	url = git@github.com:tinted-theming/tinted-shell.git

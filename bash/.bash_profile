@@ -164,8 +164,9 @@ fi
 
 # base16-shell
 BASE16_SHELL=$HOME/.base16-shell
-if [[ -n "$PS1" ]] && [[ -s $BASE16_SHELL/profile_helper.sh ]]; then
-    source "$BASE16_SHELL/profile_helper.sh"
+BASE16_FLAT=$BASE16_SHELL/scripts/base16-flat.sh
+if [[ -s $BASE16_FLAT ]]; then
+    $BASE16_FLAT
 fi
 
 # Git
