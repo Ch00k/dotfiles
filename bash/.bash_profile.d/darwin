@@ -29,12 +29,20 @@ install_tmux_256_color_terminfo() {
         return
     fi
 
-    if ! $(brew --prefix ncurses)/bin/infocm >/dev/null 2>&1; then
+    if ! $(brew --prefix ncurses)/bin/infocmp >/dev/null 2>&1; then
         return
     fi
 
     $(brew --prefix ncurses)/bin/infocmp -x tmux-256color > /tmp/tmux-256color
     tic -x /tmp/tmux-256color
+}
+
+# Brew Upgrade With Remote
+buwr() {
+    remote=$1
+    brew upgrade
+    ssh $remote -t '/home/linuxbrew/.linuxbrew/bin/brew upgrade'
+
 }
 
 install_tmux_256_color_terminfo
