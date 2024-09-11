@@ -57,8 +57,8 @@ export AWS_VAULT_BACKEND=pass
 export AWS_VAULT_PASS_PREFIX=aws-vault-credentials
 
 # Aliases
-if hash exa 2>/dev/null; then
-    alias ll='exa -glas type --group-directories-first --colour-scale --time-style=long-iso'
+if hash eza 2>/dev/null; then
+    alias ll='eza -glas type --group-directories-first --colour-scale --time-style=long-iso'
 else
     #alias ll='LC_ALL=C ls -lahG --group-directories-first --color=auto'
     alias ll='ls -lahG --group-directories-first --color=auto'
