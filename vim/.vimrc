@@ -1,6 +1,8 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'chriskempson/base16-vim'
+"Plug 'tinted-theming/base16-vim'
+"Plug 'chriskempson/base16-vim'
+Plug 'RRethy/base16-nvim'
 Plug 'itchyny/lightline.vim'
 Plug 'mike-hearn/base16-vim-lightline'
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -17,6 +19,8 @@ Plug 'hashivim/vim-terraform'
 Plug 'bronson/vim-crosshairs'
 Plug 'udalov/kotlin-vim'
 Plug 'dense-analysis/ale'
+Plug 'github/copilot.vim'
+"Plug 'norcalli/nvim-colorizer.lua'
 
 call plug#end()
 
@@ -181,3 +185,5 @@ augroup vimrc_todo
         \ contained containedin=.*Comment.*
 augroup END
 hi def link MyTodo Todo
+
+"lua require'colorizer'.setup()

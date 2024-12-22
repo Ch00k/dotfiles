@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+
+
+import base64
+import json
+import re
+import subprocess
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
+
+def get_key(stdout):
+    for line in stdout:
+        line = line.decode().strip()
+        if re.match(r"^[A-Z]{4}-[A-Z]{4}$", line):
+            return line
+
+
+def asl():
+    cmd = "/home/linuxbrew/.linuxbrew/bin/aws sso login --use-device-code --no-browser"
+    process = subprocess.Popen(
+        cmd,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        env={"AWS_PROFILE": "cp-qa"},
+    )
+    key = get_key(process.stdout)
+
+    with urlopen(
+        f"https://oidc.us-west-2.amazonaws.com/device_verification?user_code={key}"
+    ) as resp:
+        raw_data = resp.read()
+
+    data = json.loads(raw_data)
+
+    client_id = base64.b64encode(data["deviceContext"]["clientId"].encode()).decode()
+    device_context_id = base64.b64encode(
+        data["deviceContext"]["deviceContextId"].encode()
+    ).decode()
+    client_type = base64.b64encode("hasConsentDetailspublic".encode()).decode()
+    location = data["location"]
+
+    url = f"{location}?clientId={client_id}&clientType={client_type}&deviceContextId={device_context_id}"
+    print(url)
+
+    shortener_request = Request(
+        url="https://shorter.me/page/shorten",
+        method="POST",
+        data=urlencode({"url": url}).encode(),
+        headers={"User-Agent": "asl"},
+    )
+    with urlopen(shortener_request) as resp:
+        raw_data = resp.read()
+
+    data = json.loads(raw_data)
+
+    print(data["data"])
+
+    process.communicate()
+
+
+if __name__ == "__main__":
+    asl()

@@ -52,6 +52,16 @@ use_node() {
   export NODE_PATH=./node_modules
 }
 
+use_nvm() {
+  local node_version=$1
+
+  if [[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then
+    source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+    nvm use $node_version
+    export NVM_NODE_VERSION=$node_version
+  fi
+}
+
 # https://github.com/direnv/direnv/issues/420
 use_sdk() {
   if [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]]; then

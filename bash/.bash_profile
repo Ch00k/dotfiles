@@ -56,9 +56,12 @@ export LPASS_ASKPASS=lp-ap
 export AWS_VAULT_BACKEND=pass
 export AWS_VAULT_PASS_PREFIX=aws-vault-credentials
 
+export DFT_SYNTAX_HIGHLIGHT=off
+export DFT_DISPLAY=side-by-side-show-both
+
 # Aliases
 if hash eza 2>/dev/null; then
-    alias ll='eza -glas type --group-directories-first --colour-scale --time-style=long-iso'
+    alias ll='eza -glas type --group-directories-first --time-style=long-iso'
 else
     #alias ll='LC_ALL=C ls -lahG --group-directories-first --color=auto'
     alias ll='ls -lahG --group-directories-first --color=auto'
@@ -89,7 +92,7 @@ alias tkill='tmux kill-session -t'
 alias da='direnv allow'
 
 alias pl='gco $DEFAULT_BRANCH && gpl'
-alias gprc='gh pr create --fill'
+alias gprc='gh pr create --fill --base $DEFAULT_BRANCH'
 alias gprl='gh pr list'
 alias gpru='gh pr view | grep url | awk -F "url:" "{print \$2}" | xargs'
 alias gprm='gh pr merge --squash'
@@ -195,8 +198,11 @@ fi
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
-if [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
-    source "/usr/local/opt/nvm/nvm.sh"
+if [[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then
+    source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+fi
+if [[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ]]; then
+    source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 fi
 # N/A: version "N/A -> N/A" is not yet installed -> run `nvm alias default system`
 
@@ -208,8 +214,6 @@ if [[ -d "$HOMEBREW_PREFIX/opt/sdkman-cli/libexec" ]]; then
         source "${SDKMAN_DIR}/bin/sdkman-init.sh"
     fi
 fi
-
-
 
 # fzf
 if hash fzf 2>/dev/null && [[ -f $HOME/.fzf.bash ]]; then
@@ -232,6 +236,13 @@ fi
 venv_ps1_custom() {
     if [[ -n "$VIRTUAL_ENV" ]]; then
         echo "[p]"
+    fi
+}
+
+# nvm PS1
+nvm_ps1_custom() {
+    if [[ -n "$NVM_NODE_VERSION" ]]; then
+        echo "[j]"
     fi
 }
 
@@ -266,7 +277,7 @@ sdkman_ps1_custom() {
 }
 
 
-PS1='\[\e[2m\]$(venv_ps1_custom)$(sdkman_ps1_custom)\[\e[0m\]'$PS1
+PS1='\[\e[2m\]$(venv_ps1_custom)$(nvm_ps1_custom)$(sdkman_ps1_custom)\[\e[0m\]'$PS1
 
 # k8s PS1
 if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then

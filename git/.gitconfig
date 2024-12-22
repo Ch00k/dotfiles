@@ -31,8 +31,8 @@
     defaultBranch = main
     templatedir = ~/.git_templates
 
-[color "diff"]
-    meta = yellow black
+;[commit]
+;    gpgsign = true
 
-[diff]
-    tool = vimdiff
+;[diff]
+;    external = difft

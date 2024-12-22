@@ -1,7 +1,11 @@
 {
     "inlayHint": false,
     "suggest.noselect": true,
-    "coc.preferences.formatOnSaveFiletypes": [ "go", "rust", "kotlin", "sql" ],
+    "coc.preferences.formatOnSaveFiletypes": [ "go", "rust", "kotlin", "sql", "html", "css", "javascript", "markdown"],
+    "hover.floatConfig.border": true,
+    "diagnostic.floatConfig.border": true,
+    "suggest.floatConfig.border": true,
+    "signature.floatConfig.border": true,
 
     "go.goplsPath": "/home/linuxbrew/.linuxbrew/bin/gopls",
     "go.goplsOptions": {
@@ -15,10 +19,20 @@
 
     "python.analysis.typeCheckingMode": "basic",
     "pyright.disableDiagnostics": false,
-    "pyright.organizeimports.provider": "isort",
-    "python.linting.mypyEnabled": false,
-    "python.formatting.provider": "black",
-    "python.linting.flake8Enabled": true,
+    "pyright.organizeimports.provider": "ruff",
+    "python.linting.mypyEnabled": true,
+    "python.formatting.provider": "ruff",
+    "python.linting.ruffEnabled": true,
+
+    "htmldjango.djlint.formatCss": true,
+    "htmldjango.djlint.formatJs": true,
+    "htmldjango.djlint.addLinterArgs": ["--max-line-length", "250"],
+
+    "eslint.run": "onSave",
+    "eslint.autoFixOnSave": true,
+    "eslint.format.enable": true,
+
+    "biome.requireConfiguration": false,
 
     "sql.database": "mysql",
     "sql.formatOptions": {
@@ -31,7 +45,11 @@
     "languageserver": {
       "kotlin": {
         "command": "/home/ay/projects/personal/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
-        "filetypes": ["kotlin"]
+        "filetypes": ["kotlin"],
+        "settings": {
+          "kotlin.formatting.formatter": "none"
+        }
       }
-    }
+    },
+    "kotlin.formatting.formatter": "none"
 }
