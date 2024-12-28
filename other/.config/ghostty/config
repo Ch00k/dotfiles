@@ -13,8 +13,13 @@ cursor-style = block
 cursor-style-blink = false
 
 shell-integration = none
-macos-non-native-fullscreen = true
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = false
+clipboard-paste-bracketed-safe = true
+
 fullscreen = true
+macos-non-native-fullscreen = true
 window-padding-balance = true
 confirm-close-surface = false
 quit-after-last-window-closed = true
