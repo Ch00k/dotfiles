@@ -1,4 +1,6 @@
-tmux/.tmux/plugins
+tmux/.tmux/plugins/*
+tmux/.tmux/plugins/*/
+!tmux/.tmux/plugins/tpm/
 .netrwhist
 other/.config/direnv/*
 !other/projects/.envrc

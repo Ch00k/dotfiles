@@ -1,12 +1,16 @@
 [submodule "tmux/.tmux/plugins/tpm"]
 	path = tmux/.tmux/plugins/tpm
 	url = git@github.com:tmux-plugins/tpm.git
+    branch = master
 [submodule "other/.scm_breeze"]
 	path = other/.scm_breeze
 	url = git@github.com:scmbreeze/scm_breeze.git
+    branch = main
 [submodule "other/.base16-fzf"]
 	path = other/.base16-fzf
-	url = git@github.com:nicodebo/base16-fzf.git
+	url = git@github.com:tinted-theming/tinted-fzf.git
+    branch = main
 [submodule "other/.base16-shell"]
 	path = other/.base16-shell
 	url = git@github.com:tinted-theming/tinted-shell.git
+    branch = main
