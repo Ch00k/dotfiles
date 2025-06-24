@@ -162,3 +162,16 @@ wp() {
     fi
 
 }
+
+git_oldest() {
+    # the `grep` call is to only match non-binary files
+    find . -type f -not -path './node_modules/*' -not -path './.git/*' -not -path './.direnv/*' -not -path './*cache/*' -exec grep -I -q . {} \; -print0 |
+        while IFS= read -r -d '' file; do
+            # only do a blame on files that are tracked
+            if git ls-files --error-unmatch "$file" &>/dev/null; then
+                git blame --date=format:%Y%m%d -f "$file"
+            fi
+
+        # I made the `match` call only search for years that start with `20`, so needs modification if commits precede 2000
+        done | awk $'{ match($0, /20[0-2][0-9]{5}/); print substr($0, RSTART, RLENGTH) "\t" $0 }' | sort -r | tail
+}

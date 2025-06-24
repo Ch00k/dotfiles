@@ -3,7 +3,7 @@
 export LC_ALL=en_US.UTF-8
 export TZ="Europe/Amsterdam"
 
-PLATFORM="$(tr [A-Z] [a-z] <<< `uname`)"
+PLATFORM="$(tr [A-Z] [a-z] <<<$(uname))"
 
 if hash bat 2>/dev/null; then
     alias cat='bat'
@@ -16,18 +16,27 @@ elif hash vim 2>/dev/null; then
 fi
 
 export MANPAGER=less
+
 export HISTSIZE=
 export HISTFILESIZE=
 export HISTCONTROL=ignoreboth
 
-HOMEBREW_PATHS=( \
-    opt/coreutils/libexec/gnubin \
-    opt/findutils/libexec/gnubin \
-    opt/gnu-sed/libexec/gnubin \
-    opt/gnu-sed/bin \
-    opt/man-db/libexec/bin \
+shopt -s histappend
+
+#PROMPT_COMMAND="history -a; history -c; history -r;"
+#PROMPT_COMMAND=""
+
+HOMEBREW_PATHS=(
+    opt/coreutils/libexec/gnubin
+    opt/findutils/libexec/gnubin
+    opt/gnu-sed/libexec/gnubin
+    opt/gnu-sed/bin
+    opt/man-db/libexec/bin
     opt/mysql-client/bin
 )
+
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_ANALYTICS=1
 
 # Linuxbrew
 [ -d /home/linuxbrew/.linuxbrew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
@@ -59,6 +68,12 @@ export AWS_VAULT_PASS_PREFIX=aws-vault-credentials
 export DFT_SYNTAX_HIGHLIGHT=off
 export DFT_DISPLAY=side-by-side-show-both
 
+export COMPOSE_MENU=false
+
+export UV_MANAGED_PYTHON=1
+
+export DOTFILES_DIR=$HOME/.dotfiles
+
 # Aliases
 if hash eza 2>/dev/null; then
     alias ll='eza -glas type --group-directories-first --time-style=long-iso'
@@ -71,6 +86,9 @@ if hash nvim 2>/dev/null; then
     alias vi='nvim'
     alias vim='nvim'
     alias vimdiff='nvim -d'
+    alias vi_light='NVIM_APPNAME=nvim_light nvim'
+    alias vim_light='NVIM_APPNAME=nvim_light nvim'
+    alias vimdiff_light='NVIM_APPNAME=nvim_light nvim'
 else
     alias vi='vim'
 fi
@@ -99,6 +117,7 @@ alias gprm='gh pr merge --squash'
 alias gg='gcmn && gpsf'
 alias lmr='lab mr create origin $DEFAULT_BRANCH -s -d'
 alias lis='lab issue create'
+alias dc='docker-compose'
 alias dcup='docker-compose up'
 alias dcdown='docker-compose down'
 alias sal='ssh-add -l'
@@ -108,6 +127,7 @@ alias tl='stern -s 1s'
 alias watch='watch '
 alias pgps='pass git push'
 alias pgpl='pass git pull'
+alias r='sbp; da'
 
 if hash kubecolor 2>/dev/null; then
     alias k='kubecolor'
@@ -119,14 +139,13 @@ alias kg='k grep'
 alias kp='k get po'
 alias krrd='k rollout restart deployment'
 
-
 PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
 # PS1
 if [[ "${PLATFORM}" == "darwin" ]]; then
-    ps1_color=33  # yellow
+    ps1_color=33 # yellow
 else
-    ps1_color=32  # green
+    ps1_color=32 # green
 fi
 
 PS1="\[\e[${ps1_color}m\] \[\e[34m\]\w \[\e[${ps1_color}m\]\$\[\e[0m\] "
@@ -168,6 +187,11 @@ fi
 # base16-shell
 BASE16_SHELL=$HOME/.base16-shell
 BASE16_FLAT=$BASE16_SHELL/scripts/base16-flat.sh
+BASE16_CUPERTINO=$BASE16_SHELL/scripts/base16-cupertino.sh
+
+alias dark='$BASE16_FLAT'
+alias light='$BASE16_CUPERTINO'
+
 if [[ -s $BASE16_FLAT ]]; then
     $BASE16_FLAT
 fi
@@ -276,7 +300,6 @@ sdkman_ps1_custom() {
     fi
 }
 
-
 PS1='\[\e[2m\]$(venv_ps1_custom)$(nvm_ps1_custom)$(sdkman_ps1_custom)\[\e[0m\]'$PS1
 
 # k8s PS1
@@ -311,6 +334,11 @@ if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then
     export KUBE_PS1_ENABLED=off
 fi
 
+# dotfiles dirty state
+if ! git -C $DOTFILES_DIR diff-index --quiet --cached HEAD; then
+    PS1="\[\e[31m\][df]\[\e[0m\]$PS1" # red
+fi
+
 # krew
 if [[ -d $HOME/.krew/bin ]]; then
     PATH=$HOME/.krew/bin:$PATH
@@ -322,6 +350,10 @@ if [[ -s "$HOME/.bash_profile.d/$PLATFORM" ]]; then
     source "$HOME/.bash_profile.d/$PLATFORM"
 fi
 
-export PATH=$(n= IFS=':'; for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done; echo "${n:0: -1}")
+export PATH=$(
+    n= IFS=':'
+    for e in $PATH; do [[ :$n == *:$e:* ]] || n+=$e:; done
+    echo "${n:0:-1}"
+)
 
 [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]] && hash tmux 2>/dev/null && tmux attach || true

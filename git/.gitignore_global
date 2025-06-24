@@ -1,4 +1,6 @@
+.bash_history
 .idea
+.claude
 *.sublime-project
 *.sublime-workspace
 *.sublime-build
@@ -16,6 +18,7 @@ __pycache__/
 .envrc
 .direnv
 .vim
+.lvimrc
 .python-version
 .air.conf
 .ignore

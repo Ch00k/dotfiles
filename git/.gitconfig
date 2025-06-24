@@ -1,38 +1,55 @@
-[color]
-    ui = true
-
-[push]
-    default = current
-
-[pull]
-    default = current
-    rebase = true
-
-[push]
-    default = current
-
-[core]
-    excludesfile = ~/.gitignore_global
-    editor = nvim
-
-[flake8]
-    complexity = -1
-    strict = true
-    ignore =
-    lazy = false
-
 [alias]
     up = !git fetch && git rebase --autostash FETCH_HEAD
     url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
     ;url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/gitlab\\\\.com\\\\/\\\\1/g"'
     recommit = commit --amend --no-edit --reset-author
 
+[branch]
+    sort = -committerdate
+
+[column]
+    ui = auto
+
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = nvim
+
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+
 [init]
     defaultBranch = main
     templatedir = ~/.git_templates
 
+[merge]
+    conflictStyle = zdiff3
+
+[pull]
+    ;default = current
+    rebase = true
+
+[push]
+    default = simple
+    autoSetupRemote = true
+    ;followTags = true
+
+[rerere]
+    enabled = true
+    autoupdate = true
+
+[tag]
+    sort = -version:refname
+
 ;[commit]
 ;    gpgsign = true
 
-;[diff]
-;    external = difft
+
+;https://blog.gitbutler.com/how-git-core-devs-configure-git/

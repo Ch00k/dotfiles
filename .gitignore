@@ -1,4 +1,3 @@
-vim/.vim/plugged
 tmux/.tmux/plugins
 .netrwhist
 other/.config/direnv/*

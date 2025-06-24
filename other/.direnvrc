@@ -1,81 +1,90 @@
 # vim: set ft=bash:
 
-export_alias() {
-  local name=$1
-  shift
-  local alias_dir=$(direnv_layout_dir)/aliases
-  local target="$alias_dir/$name"
-  mkdir -p "$alias_dir"
-  PATH_add "$alias_dir"
-  echo "#!/usr/bin/env -S bash -euo pipefail" > "$target"
-  echo "$@" >> "$target"
-  chmod +x "$target"
+# https://github.com/direnv/direnv/pull/1352
+layout_uv() {
+    watch_file .python-version pyproject.toml uv.lock
+    uv sync --frozen || true
+    venv_path="$(expand_path "${UV_PROJECT_ENVIRONMENT:-.venv}")"
+    if [[ -e $venv_path ]]; then
+        source "$venv_path/bin/activate"
+    fi
 }
 
+export_alias() {
+    local name=$1
+    shift
+    local alias_dir=$(direnv_layout_dir)/aliases
+    local target="$alias_dir/$name"
+    mkdir -p "$alias_dir"
+    PATH_add "$alias_dir"
+    echo "#!/usr/bin/env -S bash -euo pipefail" >"$target"
+    echo "$@" >>"$target"
+    chmod +x "$target"
+}
 
 export_function() {
-  local name=$1
-  local alias_dir=$(direnv_layout_dir)/aliases
-  mkdir -p "$alias_dir"
-  PATH_add "$alias_dir"
-  local target="$alias_dir/$name"
-  if declare -f "$name" >/dev/null; then
-    echo "#!/usr/bin/env -S bash -euo pipefail" > "$target"
-    declare -f "$name" >> "$target" 2>/dev/null
-    # Notice that we add shell variables to the function trigger.
-    echo "$name \$*" >> "$target"
-    chmod +x "$target"
-  fi
+    local name=$1
+    local alias_dir=$(direnv_layout_dir)/aliases
+    mkdir -p "$alias_dir"
+    PATH_add "$alias_dir"
+    local target="$alias_dir/$name"
+    if declare -f "$name" >/dev/null; then
+        echo "#!/usr/bin/env -S bash -euo pipefail" >"$target"
+        declare -f "$name" >>"$target" 2>/dev/null
+        # Notice that we add shell variables to the function trigger.
+        echo "$name \$*" >>"$target"
+        chmod +x "$target"
+    fi
 }
 
 use_node() {
-  layout node
+    layout node
 
-  local node_version=$1
+    local node_version=$1
 
-  if [ "$node_version" == "package.json" ]; then
-    # Requires jq: `brew install jq`
-    node_version=`jq --raw-output .engines.node package.json | tr -d "<=> "`
-  fi
+    if [ "$node_version" == "package.json" ]; then
+        # Requires jq: `brew install jq`
+        node_version=$(jq --raw-output .engines.node package.json | tr -d "<=> ")
+    fi
 
-  local node_path=${NVM_DIR}/versions/node
+    local node_path=${NVM_DIR}/versions/node
 
-  if [ -x "$node_path/$node_version/bin/node" ]; then
-    PATH_add $node_path/$node_version/bin
-  elif [ -x "$node_path/v$node_version/bin/node" ]; then
-    # Support nvm users (nvm prefixes versions with 'v')
-    PATH_add $node_path/v$node_version/bin
-  else
-    echo "!!! Node.js version $node_version is not installed"
-  fi
+    if [ -x "$node_path/$node_version/bin/node" ]; then
+        PATH_add $node_path/$node_version/bin
+    elif [ -x "$node_path/v$node_version/bin/node" ]; then
+        # Support nvm users (nvm prefixes versions with 'v')
+        PATH_add $node_path/v$node_version/bin
+    else
+        echo "!!! Node.js version $node_version is not installed"
+    fi
 
-  export NODE_PATH=./node_modules
+    export NODE_PATH=./node_modules
 }
 
 use_nvm() {
-  local node_version=$1
+    local node_version=$1
 
-  if [[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then
-    source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-    nvm use $node_version
-    export NVM_NODE_VERSION=$node_version
-  fi
+    if [[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then
+        source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+        nvm use $node_version
+        export NVM_NODE_VERSION=$node_version
+    fi
 }
 
 # https://github.com/direnv/direnv/issues/420
 use_sdk() {
-  if [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]]; then
-      source "${SDKMAN_DIR}/bin/sdkman-init.sh"
-  fi
-  SDKMAN_OFFLINE_MODE=true
+    if [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]]; then
+        source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+    fi
+    SDKMAN_OFFLINE_MODE=true
 
-  while (( "$#" >= 2 )); do
-    local candidate=$1
-    local candidate_version=$2
-    sdk use $candidate $candidate_version > /dev/null
+    while (("$#" >= 2)); do
+        local candidate=$1
+        local candidate_version=$2
+        sdk use $candidate $candidate_version >/dev/null
 
-    shift 2
-  done
+        shift 2
+    done
 }
 
 source_up

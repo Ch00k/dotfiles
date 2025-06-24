@@ -42,7 +42,7 @@ def asl():
     location = data["location"]
 
     url = f"{location}?clientId={client_id}&clientType={client_type}&deviceContextId={device_context_id}"
-    print(url)
+    # print(url)
 
     shortener_request = Request(
         url="https://shorter.me/page/shorten",
