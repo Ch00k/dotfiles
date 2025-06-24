@@ -193,7 +193,7 @@ alias dark='$BASE16_FLAT'
 alias light='$BASE16_CUPERTINO'
 
 if [[ -s $BASE16_FLAT ]]; then
-    $BASE16_FLAT
+    sh $BASE16_FLAT
 fi
 
 # Git
@@ -335,7 +335,7 @@ if [[ -s "$HOMEBREW_PREFIX/opt/kube-ps1/share/kube-ps1.sh" ]]; then
 fi
 
 # dotfiles dirty state
-if ! git -C $DOTFILES_DIR diff-index --quiet --cached HEAD; then
+if [[ -n $(git -C $DOTFILES_DIR status --porcelain) ]]; then
     PS1="\[\e[31m\][df]\[\e[0m\]$PS1" # red
 fi
 
