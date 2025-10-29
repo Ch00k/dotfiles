@@ -10,6 +10,14 @@ layout_uv() {
     fi
 }
 
+layout_uv_bare() {
+    uv venv || true
+    venv_path="$(expand_path "${UV_PROJECT_ENVIRONMENT:-.venv}")"
+    if [[ -e $venv_path ]]; then
+        source "$venv_path/bin/activate"
+    fi
+}
+
 export_alias() {
     local name=$1
     shift

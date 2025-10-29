@@ -24,3 +24,4 @@ __pycache__/
 .ignore
 .ruff.toml
 tmp
+PLAN_*.md

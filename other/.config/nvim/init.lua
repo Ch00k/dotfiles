@@ -24,6 +24,7 @@ Plug("mileszs/ack.vim")
 Plug("christoomey/vim-tmux-navigator")
 Plug("tmux-plugins/vim-tmux-focus-events")
 Plug("tpope/vim-sensible")
+Plug("tpope/vim-fugitive")
 Plug("bronson/vim-crosshairs")
 Plug("udalov/kotlin-vim")
 Plug("embear/vim-localvimrc")
@@ -40,6 +41,7 @@ Plug("L3MON4D3/LuaSnip")
 Plug("saadparwaiz1/cmp_luasnip")
 Plug("stevearc/conform.nvim")
 Plug("mfussenegger/nvim-lint")
+Plug("joerdav/templ.vim")
 
 vim.call("plug#end")
 
@@ -238,7 +240,8 @@ map("n", "<leader>q", ":q<CR>", { noremap = true })
 map("n", "<leader>a", ":wq<CR>", { noremap = true })
 map("n", "<leader>z", ":qa<CR>", { noremap = true })
 map("n", "<leader>.", ":%bdelete<CR>", { noremap = true })
-map("n", "<leader>rs", ":LspRestart<CR><CR>", { noremap = true })
+map("n", "<leader>vr", ":so $MYVIMRC<CR>", { noremap = true })
+map("n", "<leader>rs", ":LspRestart<CR>", { noremap = true })
 map("n", "<leader>v", ":vsplit<CR>", { noremap = true })
 map("n", "<leader>h", ":hsplit<CR>", { noremap = true })
 map("n", "<leader>t", [[o__import__("pdb").set_trace()<Esc>]], { noremap = true })
@@ -252,6 +255,8 @@ map("n", "<leader>m", ":CtrlPBuffer<CR>", { noremap = true })
 map("n", "<leader>d", "<C-]>", {})
 map("n", "<leader>rn", vim.lsp.buf.rename, {})
 map("n", "<leader>fi", vim.lsp.buf.code_action, {})
+map("n", "<leader>fr", vim.lsp.buf.references)
+
 map("v", "<leader>y", [["+y]], { noremap = true })
 map("n", "<leader>p", [["+p]], { noremap = true })
 
@@ -296,6 +301,7 @@ require("nvim-treesitter.configs").setup({
 		"terraform",
 		"xml",
 		"htmldjango",
+		"templ",
 	},
 
 	sync_install = false,
@@ -308,6 +314,19 @@ require("nvim-treesitter.configs").setup({
 	indent = {
 		enable = true,
 	},
+
+	--highlight = {
+	--    enable = true,
+	--    disable = function(lang, _)
+	--        local enabled_langs = { "go", "templ" }
+	--        for _, enabled_lang in ipairs(enabled_langs) do
+	--            if lang == enabled_lang then
+	--                return false
+	--            end
+	--        end
+	--        return true
+	--    end,
+	--},
 })
 
 --
@@ -385,11 +404,46 @@ vim.lsp.config("basedpyright", {
 	},
 })
 
+vim.lsp.config("gopls", {
+	--cmd_env = { GOFUMPT_SPLIT_LONG_LINES = "on" },
+	settings = {
+		gopls = {
+			analyses = {
+				unusedparams = true,
+			},
+			staticcheck = true,
+			gofumpt = true,
+		},
+	},
+})
+
+autocmd("BufWritePre", {
+	pattern = "*.go",
+	callback = function()
+		local params = vim.lsp.util.make_range_params()
+		params.context = { only = { "source.organizeImports" } }
+		local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
+		for cid, res in pairs(result or {}) do
+			for _, r in pairs(res.result or {}) do
+				if r.edit then
+					local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+					vim.lsp.util.apply_workspace_edit(r.edit, enc)
+				end
+			end
+		end
+		vim.lsp.buf.format({ async = false })
+	end,
+})
+
 vim.lsp.enable("ruff")
 vim.lsp.enable("gopls")
+vim.lsp.enable("golangci_lint_ls")
 vim.lsp.enable("basedpyright")
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("bashls")
+vim.lsp.enable("templ")
+vim.lsp.enable("kotlin_lsp")
+vim.lsp.enable("ts_ls")
 
 --
 -- conform.nvim
@@ -398,6 +452,14 @@ require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+		--yaml = { "yamlfmt" },
+		json = { "jq" },
+		go = { "golangci-lint" },
+		htmldjango = { "djlint" },
+		templ = { "templ" },
+		html = { "prettier" },
+		css = { "prettier" },
+		javascript = { "prettier" },
 	},
 	format_on_save = {
 		timeout_ms = 500,
@@ -410,6 +472,7 @@ require("conform").setup({
 --
 require("lint").linters_by_ft = {
 	python = { "mypy" },
+	go = { "golangcilint" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {

@@ -1,8 +1,9 @@
 [alias]
     up = !git fetch && git rebase --autostash FETCH_HEAD
-    url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
+    url = !bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
     ;url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/gitlab\\\\.com\\\\/\\\\1/g"'
     recommit = commit --amend --no-edit --reset-author
+	clean-ws = "!for file in $(git diff --name-only --diff-filter=d HEAD; git diff --cached --name-only --diff-filter=d | sort -u); do perl -i -0pe \"s/[ \\t]+$//gm; s/\\n*$/\\n/\" \"$file\" && git add \"$file\"; done"
 
 [branch]
     sort = -committerdate
@@ -48,8 +49,45 @@
 [tag]
     sort = -version:refname
 
+[color "diff"]
+    meta = yellow
+
 ;[commit]
 ;    gpgsign = true
 
+[delta]
+    paging = always
+    navigate = true
+    dark = true
+    side-by-side = true
+    true-color = always
+    file-added-label = [+]
+    file-copied-label = [==]
+    file-modified-label = [*]
+    file-removed-label = [-]
+    file-renamed-label = [->]
+    file-style = yellow
+    file-decoration-style = yellow box
+    syntax-theme = none
+    hunk-header-style = omit
+    line-numbers = true
+    line-numbers-left-format = "{nm:>4} "
+    ;line-numbers-minus-style = "#8c8c8c" "#5e2a37"
+    ;line-numbers-plus-style = "#8c8c8c" "#2a5e37"
+    line-numbers-plus-style = normal "#60875F"
+    line-numbers-minus-style = normal "#875F5F"
+    line-numbers-right-format = "{np:>4} "
+    line-numbers-zero-style = "#666666"
+    ;minus-emph-style = normal "#9f1f1d"
+    ;minus-style = normal "#5e2a37"
+    ;plus-emph-style = normal "#1f9f1d"
+    ;plus-style = normal "#2a5e37"
+    plus-style = normal "#60875F"
+    minus-style = normal "#875F5F"
+    plus-emph-style = normal "#60AF87"
+    minus-emph-style = normal "#D78787"
+    whitespace-error-style = "#280050"
+    wrap-max-lines = unlimited
+    wrap-right-percent = 1
 
 ;https://blog.gitbutler.com/how-git-core-devs-configure-git/

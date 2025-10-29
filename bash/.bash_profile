@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Start timing
+#PS4='+ $(date "+%s.%N")\011 '
+#exec 3>&2 2>/tmp/bashstart.$$.log
+#set -x
+
 export LC_ALL=en_US.UTF-8
 export TZ="Europe/Amsterdam"
 
@@ -54,13 +59,11 @@ for path in ${HOMEBREW_PATHS[*]}; do
     fi
 done
 
-if [ ! -n "$SSH_CONNECTION" ]; then
+if [ -z "$SSH_CONNECTION" ]; then
     export GPG_TTY="$(tty)"
     export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
     gpgconf --launch gpg-agent
 fi
-
-export LPASS_ASKPASS=lp-ap
 
 export AWS_VAULT_BACKEND=pass
 export AWS_VAULT_PASS_PREFIX=aws-vault-credentials
@@ -68,6 +71,7 @@ export AWS_VAULT_PASS_PREFIX=aws-vault-credentials
 export DFT_SYNTAX_HIGHLIGHT=off
 export DFT_DISPLAY=side-by-side-show-both
 
+export BUILDKIT_PROGRESS=plain
 export COMPOSE_MENU=false
 
 export UV_MANAGED_PYTHON=1
@@ -114,6 +118,13 @@ alias gprc='gh pr create --fill --base $DEFAULT_BRANCH'
 alias gprl='gh pr list'
 alias gpru='gh pr view | grep url | awk -F "url:" "{print \$2}" | xargs'
 alias gprm='gh pr merge --squash'
+alias gprd='gh pr diff | delta'
+alias gprv='gh pr view --comments'
+alias gpra='gh pr checks'
+alias grl='gh run list'
+alias grw='gh run watch'
+alias grvl='gh run view --log'
+alias grvf='gh run view --log-failed'
 alias gg='gcmn && gpsf'
 alias lmr='lab mr create origin $DEFAULT_BRANCH -s -d'
 alias lis='lab issue create'
@@ -128,6 +139,7 @@ alias watch='watch '
 alias pgps='pass git push'
 alias pgpl='pass git pull'
 alias r='sbp; da'
+alias grin='grip --norefresh'
 
 if hash kubecolor 2>/dev/null; then
     alias k='kubecolor'
@@ -155,16 +167,6 @@ if hash direnv 2>/dev/null; then
     eval "$(direnv hook bash)"
 fi
 
-# pyenv
-if hash pyenv 2>/dev/null; then
-    eval "$(pyenv init --path)"
-fi
-
-# jenv
-if hash jenv 2>/dev/null; then
-    eval "$(jenv init -)"
-fi
-
 # bash completion
 if [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]]; then
     source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
@@ -182,6 +184,8 @@ complete -o default -F __start_kubectl k
 # SCM Breeze
 if [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]]; then
     source "$HOME/.scm_breeze/scm_breeze.sh"
+    scm_breeze_gc=$(alias gc | cut -d"'" -f2)
+    alias gc="git clean-ws && $scm_breeze_gc"
 fi
 
 # base16-shell
@@ -344,6 +348,11 @@ if [[ -d $HOME/.krew/bin ]]; then
     PATH=$HOME/.krew/bin:$PATH
 fi
 
+# Oar
+if [[ -d /opt/oar/bin ]]; then
+    PATH=/opt/oar/bin:$PATH
+fi
+
 # functions
 source $HOME/.bash_profile.d/functions
 if [[ -s "$HOME/.bash_profile.d/$PLATFORM" ]]; then
@@ -357,3 +366,7 @@ export PATH=$(
 )
 
 [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]] && hash tmux 2>/dev/null && tmux attach || true
+
+# End timing
+#set +x
+#exec 2>&3 3>&-
